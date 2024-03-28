@@ -10,22 +10,25 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class Post {
+public class Comment {
 
     @Id
     @GeneratedValue
-    @Column(name = "post_id")
+    @Column(name = "comment_id")
     private Long id;
-
-    private String title;
-
-    @ManyToOne
-    @JoinColumn(name = "member_id")
-    private Member member;
 
     private String content;
 
-    //연관 관계 메서드
+    @ManyToOne
+    @JoinColumn(name = "post_id")
+    private Post post;
+
+    @ManyToOne
+    @JoinColumn(name = "comment_id")
+    private Member member;
+
+
+
 
 
 
