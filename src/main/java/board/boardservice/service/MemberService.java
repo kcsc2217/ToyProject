@@ -37,6 +37,18 @@ public class MemberService {
 
 
     }
+    //아이디와 비밀번호 찾기
+    public Member findMember(String username, String phoneNumber, String email){
+        return memberRepository.findMember(username, phoneNumber, email);
+    }
+
+    @Transactional
+    public void update(Long id, Member member){
+        Member findmember = memberRepository.findOne(id);
+
+        findmember.updateMember(member);
+    }
+
 
 
 
