@@ -22,5 +22,11 @@ public class Member {
 
     private String email;
 
+    @Embedded
+    private Address address;
+
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
+
 
 }
