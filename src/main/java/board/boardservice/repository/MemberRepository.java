@@ -55,5 +55,15 @@ public class MemberRepository {
 
     }
 
+    //회원 탈퇴
+    public void deleteMember(Long id){
+        Member member = em.find(Member.class, id);
+
+        if(member != null){
+            em.remove(member);
+        }
+    }
+
+
 
 }

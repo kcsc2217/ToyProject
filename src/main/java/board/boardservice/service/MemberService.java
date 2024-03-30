@@ -23,6 +23,7 @@ public class MemberService {
 
     }
 
+    // 로그인 기능
     public Member login(String username,String password){
         List<Member> findMemberList = memberRepository.findByName(username);
 
@@ -42,6 +43,7 @@ public class MemberService {
         return memberRepository.findMember(username, phoneNumber, email);
     }
 
+    // 회원 수정
     @Transactional
     public void update(Long id, Member member){
         Member findmember = memberRepository.findOne(id);
