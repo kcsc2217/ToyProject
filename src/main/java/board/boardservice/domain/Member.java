@@ -3,6 +3,7 @@ package board.boardservice.domain;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +28,10 @@ public class Member {
 
     @Enumerated(EnumType.STRING)
     private Gender gender;
+
+    private LocalDate birthDay;
+
+    private String phoneNumber;
 
 
 }
