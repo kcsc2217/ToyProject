@@ -10,7 +10,6 @@ import org.springframework.data.util.Lazy;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
 public class Comment {
 
     @Id
@@ -29,9 +28,15 @@ public class Comment {
     private Member member;
 
 
+    //게시글 추가 메서드
+    public void addMember(Member member) {
+        this.member = member;
+    }
 
-
-
+    public void addPost(Post post) {
+        this.post = post;
+        post.getComments().add(this);
+    }
 
 
 }
