@@ -47,14 +47,13 @@ public class Member {
     private String phoneNumber;
 
 
-    public void updateMember(Member member){
-        this.username =member.getUsername();
-        this.name = member.getName();
-        this.password = member.getPassword();
-        this.address = member.getAddress();
-        this.gender = member.getGender();
-        this.birthDay = member.getBirthDay();
-        this.phoneNumber = member.phoneNumber;
+    public void updateMember(MemberDTO memberDTO){
+        this.name = memberDTO.getName();
+        this.address = memberDTO.getAddress();
+        this.email = memberDTO.getEmail();
+        this.gender = memberDTO.getGender();
+        this.birthDay = memberDTO.getBirthDay();
+        this.phoneNumber = memberDTO.getPhoneNumber();
 
     }
 

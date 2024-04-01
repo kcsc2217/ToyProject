@@ -3,8 +3,10 @@ package board.boardservice.service;
 import board.boardservice.domain.Address;
 import board.boardservice.domain.Gender;
 import board.boardservice.domain.Member;
+import board.boardservice.domain.MemberDTO;
 import board.boardservice.exception.InvalidCredentialsException;
 import board.boardservice.repository.MemberRepository;
+import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -12,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 
+import static org.assertj.core.api.ClassBasedNavigableIterableAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 
@@ -22,6 +25,9 @@ class MemberServiceTest {
     @Autowired MemberService memberService;
     @Autowired
     MemberRepository memberRepository;
+
+    @Autowired
+    EntityManager em;
 
     @Test
     public void 회원가입() throws Exception {
@@ -102,6 +108,30 @@ class MemberServiceTest {
 
         //then
        assertNull(findMember);
+    }
+    
+    @Test
+    public void 회원수정() throws Exception {
+       //given
+        Member member = testMember();
+
+        MemberDTO memberDTO = new MemberDTO("이성원", "k12002@nate.com", new Address("서울", "충무로", "ㄹㅇ"),
+                Gender.MALE, LocalDate.of(1990, 5, 15), "010-7119-xxxx");
+
+
+        //when
+        memberService.join(member);
+        memberService.updateMember(member.getId(), memberDTO);
+
+        em.flush();
+        em.clear();
+
+        Member findMember = memberRepository.findOne(member.getId());
+
+
+        //then
+       assertEquals(findMember.getName(), "이성원");
+
     }
 
     private static Member testMember() {

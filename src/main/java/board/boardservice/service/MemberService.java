@@ -1,6 +1,7 @@
 package board.boardservice.service;
 
 import board.boardservice.domain.Member;
+import board.boardservice.domain.MemberDTO;
 import board.boardservice.exception.InvalidCredentialsException;
 import board.boardservice.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -50,10 +51,10 @@ public class MemberService {
 
     // 회원 수정
     @Transactional
-    public void update(Long id, Member member){
+    public void updateMember(Long id, MemberDTO memberDTO){
         Member findmember = memberRepository.findOne(id);
 
-        findmember.updateMember(member);
+        findmember.updateMember(memberDTO);
     }
 
     //회원 탈퇴
