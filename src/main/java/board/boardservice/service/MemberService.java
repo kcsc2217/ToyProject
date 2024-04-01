@@ -15,11 +15,13 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
 
+    //회원 가입
     @Transactional
-    public void join(Member member){
-        memberRepository.save(member);
+    public Long join(Member member){
         validateMember(member);
         memberRepository.save(member);
+
+        return member.getId();
 
     }
 
@@ -51,6 +53,7 @@ public class MemberService {
         findmember.updateMember(member);
     }
 
+    //회원 탈퇴
     @Transactional
     public void delete(Long id){
         memberRepository.deleteMember(id);
