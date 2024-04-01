@@ -24,6 +24,7 @@ class MemberServiceTest {
 
     @Test
     public void 회원가입() throws Exception {
+        //given
         Member member = testMember();
 
         //when
@@ -32,6 +33,22 @@ class MemberServiceTest {
 
         //then
         assertEquals(member, memberRepository.findOne(memberId));
+    }
+    
+    @Test
+    public void 중복회원() throws Exception {
+       //given
+        Member member1 = testMember();
+        Member member2 = testMember();
+
+        //when
+
+        memberService.join(member1);
+
+
+
+        //then
+        assertThrows(IllegalStateException.class, ()-> memberService.join(member2));
     }
 
     private static Member testMember() {
