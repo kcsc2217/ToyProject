@@ -43,8 +43,8 @@ public class MemberRepository {
         try {
             return em.createQuery("select m from Member m" +
                             " where m.username = :username" +
-                            "and m.phoneNumber = :phoneNumber" +
-                            "and m.email = email", Member.class)
+                            " and m.phoneNumber = :phoneNumber" +
+                            " and m.email = :email", Member.class)
                     .setParameter("username", username)
                     .setParameter("phoneNumber", phoneNumber)
                     .setParameter("email", email)

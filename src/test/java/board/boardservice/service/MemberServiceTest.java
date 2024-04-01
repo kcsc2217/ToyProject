@@ -3,6 +3,7 @@ package board.boardservice.service;
 import board.boardservice.domain.Address;
 import board.boardservice.domain.Gender;
 import board.boardservice.domain.Member;
+import board.boardservice.exception.InvalidCredentialsException;
 import board.boardservice.repository.MemberRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,6 +52,58 @@ class MemberServiceTest {
         assertThrows(IllegalStateException.class, ()-> memberService.join(member2));
     }
 
+    @Test
+    public void 로그인() throws Exception {
+       //given
+        Member member = testMember();
+
+        //when
+        memberService.join(member);
+
+        Member loginMember = memberService.login("john123", "password123");
+
+        //then
+        assertEquals(member, loginMember);
+    }
+
+    @Test
+    public void 로그인실패() throws Exception {
+       //given
+        Member member = testMember();
+
+        //when
+        memberService.join(member);
+
+       //then
+        assertThrows(InvalidCredentialsException.class, () -> memberService.login("john123", "123"));
+    }
+
+    @Test
+    public void 회원정보찾기() throws Exception {
+       //given
+        Member member = testMember();
+
+        //when
+        memberService.join(member);
+        Member findMember = memberService.findMember("john123", "010-xxxx-xxxx", "john@example.com");
+
+        //then
+        assertEquals(member, findMember);
+    }
+
+    @Test
+    public void 회원정보불일치() throws Exception {
+        //given
+        Member member = testMember();
+
+        //when
+        memberService.join(member);
+        Member findMember = memberService.findMember("lee", "010-xxxx-xxxx", "john@example.com");
+
+        //then
+       assertNull(findMember);
+    }
+
     private static Member testMember() {
         Address address = new Address("광양", "광장로", "454");
         //given
@@ -58,6 +111,7 @@ class MemberServiceTest {
                 .name("John")
                 .username("john123")
                 .address(address)
+                .phoneNumber("010-xxxx-xxxx")
                 .password("password123")
                 .email("john@example.com")
                 .birthDay(LocalDate.of(1990, 5, 15)) // 생일 필드 설정

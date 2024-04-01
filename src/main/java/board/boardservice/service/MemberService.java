@@ -1,6 +1,7 @@
 package board.boardservice.service;
 
 import board.boardservice.domain.Member;
+import board.boardservice.exception.InvalidCredentialsException;
 import board.boardservice.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,7 +27,7 @@ public class MemberService {
     }
 
     // 로그인 기능
-    public Member login(String username,String password){
+    public Member login(String username,String password)  throws InvalidCredentialsException {
         List<Member> findMemberList = memberRepository.findByName(username);
 
         for (Member member : findMemberList) {
@@ -36,14 +37,16 @@ public class MemberService {
             }
         }
 
-        return null;
+        throw new InvalidCredentialsException("올바르지 않은 사용자 이름 또는 비밀번호입니다.");
 
 
     }
+
     //아이디와 비밀번호 찾기
     public Member findMember(String username, String phoneNumber, String email){
         return memberRepository.findMember(username, phoneNumber, email);
     }
+
 
     // 회원 수정
     @Transactional
