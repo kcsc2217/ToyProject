@@ -51,6 +51,11 @@ public class MemberService {
         findmember.updateMember(member);
     }
 
+    @Transactional
+    public void delete(Long id){
+        memberRepository.deleteMember(id);
+    }
+
 
 
 
