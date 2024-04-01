@@ -133,6 +133,28 @@ class MemberServiceTest {
        assertEquals(findMember.getName(), "이성원");
 
     }
+    
+    @Test
+    public void 회원탈퇴() throws Exception {
+       //given
+        Member member = testMember();
+
+        //when
+        memberService.join(member);
+
+        memberService.delete(member.getId());
+
+        em.flush();
+        em.clear();
+
+        Member findMember = memberRepository.findOne(member.getId());
+
+
+        //then
+        assertNull(findMember);
+
+
+    }
 
     private static Member testMember() {
         Address address = new Address("광양", "광장로", "454");
