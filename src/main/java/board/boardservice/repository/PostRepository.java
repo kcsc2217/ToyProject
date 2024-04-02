@@ -3,6 +3,7 @@ package board.boardservice.repository;
 import board.boardservice.domain.Member;
 import board.boardservice.domain.Post;
 import board.boardservice.domain.dto.PostDto;
+import board.boardservice.domain.form.PostForm;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +20,7 @@ public class PostRepository {
 
     public void save(Post post) {
         em.persist(post);
+
     }
 
     public Post findOne(Long id) {

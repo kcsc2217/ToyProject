@@ -13,6 +13,10 @@ import org.springframework.data.util.Lazy;
 @AllArgsConstructor
 public class Comment {
 
+    public Comment(String content) {
+        this.content = content;
+    }
+
     @Id
     @GeneratedValue
     @Column(name = "comment_id")
@@ -41,6 +45,15 @@ public class Comment {
 
     public void updateContent(CommentUpdateDto commentUpdateDto){
         this.content = commentUpdateDto.getContent();
+    }
+
+    public static Comment createContent(String content, Member member, Post post){
+        Comment comment = new Comment(content);
+        comment.addMember(member);
+        comment.addPost(post);
+
+        return comment;
+
     }
 
 

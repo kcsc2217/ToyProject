@@ -1,7 +1,10 @@
 package board.boardservice.service;
 
+import board.boardservice.domain.Member;
 import board.boardservice.domain.Post;
 import board.boardservice.domain.dto.PostDto;
+import board.boardservice.domain.form.PostForm;
+import board.boardservice.repository.MemberRepository;
 import board.boardservice.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,11 +18,17 @@ import java.util.List;
 public class PostService {
 
     private final PostRepository postRepository;
+    private final MemberRepository memberRepository;
 
 
     // 글 작성
     @Transactional
-    public Long savePost(Post post) {
+    public Long savePost(Long memberId, PostForm postForm) {
+
+        Member findMember = memberRepository.findOne(memberId);
+
+        Post post = Post.createPost(postForm.getTitle(), postForm.getContent(), findMember);
+
         postRepository.save(post);
 
         return post.getId();

@@ -3,6 +3,7 @@ package board.boardservice.domain;
 import board.boardservice.domain.dto.PostDto;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.OnDelete;
@@ -15,6 +16,15 @@ import java.util.List;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Post {
+
+
+    // 처음 글을 생성 할 때
+    public Post(String title, String content) {
+        this.title = title;
+        this.content = content;
+    }
+
+
 
     @Id
     @GeneratedValue
@@ -33,6 +43,9 @@ public class Post {
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     List<Comment> comments = new ArrayList<>();
 
+
+
+
     //연관 관계 메서드
 
     public void addMember(Member member){
@@ -43,6 +56,14 @@ public class Post {
     public void updatePost(PostDto postDto){
         this.title = postDto.getTitle();
         this.content = postDto.getContent();
+    }
+
+    public static Post createPost(String title, String content, Member member){
+        Post post = new Post(title, content);
+        post.addMember(member);
+
+        return post;
+
     }
 
 
