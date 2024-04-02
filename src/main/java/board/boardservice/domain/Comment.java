@@ -11,6 +11,7 @@ import org.springframework.data.util.Lazy;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
+@Entity
 public class Comment {
 
     public Comment(String content) {
