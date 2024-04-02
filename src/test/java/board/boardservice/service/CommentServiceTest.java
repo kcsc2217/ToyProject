@@ -5,7 +5,7 @@ import board.boardservice.domain.Comment;
 import board.boardservice.domain.Member;
 import board.boardservice.domain.Post;
 import board.boardservice.domain.dto.CommentUpdateDto;
-import board.boardservice.domain.form.CommentForm;
+import board.boardservice.controller.form.CommentForm;
 import board.boardservice.repository.CommentRepository;
 import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.Test;

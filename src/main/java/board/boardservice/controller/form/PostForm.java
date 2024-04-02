@@ -1,4 +1,4 @@
-package board.boardservice.domain.form;
+package board.boardservice.controller.form;
 
 import lombok.Getter;
 

@@ -1,4 +1,4 @@
-package board.boardservice.controller;
+package board.boardservice.controller.form;
 
 import board.boardservice.domain.Address;
 import board.boardservice.domain.Gender;
