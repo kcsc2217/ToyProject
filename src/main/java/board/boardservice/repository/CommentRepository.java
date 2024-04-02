@@ -2,6 +2,7 @@ package board.boardservice.repository;
 
 import board.boardservice.domain.Comment;
 import board.boardservice.domain.Member;
+import board.boardservice.domain.Post;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
@@ -29,5 +30,14 @@ public class CommentRepository {
     public List<Comment> findAll(){
         return em.createQuery("select c from Comment c", Comment.class)
                 .getResultList();
+    }
+
+    public void deletePost(Long id){
+        Comment comment = em.find(Comment.class, id);
+
+        if(comment != null){
+            em.remove(comment);
+        }
+
     }
 }

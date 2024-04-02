@@ -1,5 +1,7 @@
-package board.boardservice.domain;
+package board.boardservice.domain.dto;
 
+import board.boardservice.domain.Address;
+import board.boardservice.domain.Gender;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

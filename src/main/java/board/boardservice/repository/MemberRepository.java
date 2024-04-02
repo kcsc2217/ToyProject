@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
@@ -56,14 +55,13 @@ public class MemberRepository {
     }
 
     //회원 탈퇴
-    public Member deleteMember(Long id){
+    public void deleteMember(Long id){
         Member member = em.find(Member.class, id);
 
         if(member != null){
             em.remove(member);
         }
 
-        return member;
     }
 
 

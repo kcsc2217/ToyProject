@@ -1,5 +1,6 @@
 package board.boardservice.domain;
 
+import board.boardservice.domain.dto.CommentUpdateDto;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -7,9 +8,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.util.Lazy;
 
-@Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 public class Comment {
 
     @Id
@@ -38,5 +39,10 @@ public class Comment {
         post.getComments().add(this);
     }
 
+    public void updateContent(CommentUpdateDto commentUpdateDto){
+        this.content = commentUpdateDto.getContent();
+    }
+
 
 }
+

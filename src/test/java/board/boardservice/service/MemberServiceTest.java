@@ -3,7 +3,7 @@ package board.boardservice.service;
 import board.boardservice.domain.Address;
 import board.boardservice.domain.Gender;
 import board.boardservice.domain.Member;
-import board.boardservice.domain.MemberDTO;
+import board.boardservice.domain.dto.MemberDTO;
 import board.boardservice.exception.InvalidCredentialsException;
 import board.boardservice.repository.MemberRepository;
 import jakarta.persistence.EntityManager;
@@ -14,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 
-import static org.assertj.core.api.ClassBasedNavigableIterableAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 

@@ -2,7 +2,9 @@ package board.boardservice.repository;
 
 import board.boardservice.domain.Member;
 import board.boardservice.domain.Post;
+import board.boardservice.domain.dto.PostDto;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -27,6 +29,29 @@ public class PostRepository {
     public List<Post> findAll(){
         return em.createQuery("select p from Post p", Post.class)
                 .getResultList();
+    }
+
+    public Post find(PostDto postDto){
+        try {
+            return em.createQuery("select p from Post p" +
+                            " where p.title = :title" +
+                            " and p.content = :content",
+                             Post.class)
+                    .setParameter("title", postDto.getTitle())
+                    .setParameter("content", postDto.getContent())
+                    .getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+
+    public void deletePost(Long id){
+        Post post = em.find(Post.class, id);
+
+        if(post != null){
+            em.remove(post);
+        }
+
     }
 
 }

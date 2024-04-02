@@ -1,11 +1,10 @@
 package board.boardservice.domain;
 
+import board.boardservice.domain.dto.MemberDTO;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Getter

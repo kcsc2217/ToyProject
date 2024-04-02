@@ -1,7 +1,7 @@
 package board.boardservice.service;
 
 import board.boardservice.domain.Member;
-import board.boardservice.domain.MemberDTO;
+import board.boardservice.domain.dto.MemberDTO;
 import board.boardservice.exception.InvalidCredentialsException;
 import board.boardservice.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -76,6 +76,7 @@ public class MemberService {
 
 
     }
+
 
 
 

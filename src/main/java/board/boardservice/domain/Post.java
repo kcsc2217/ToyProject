@@ -1,8 +1,8 @@
 package board.boardservice.domain;
 
+import board.boardservice.domain.dto.PostDto;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.OnDelete;
@@ -14,7 +14,6 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
 public class Post {
 
     @Id
@@ -39,6 +38,13 @@ public class Post {
     public void addMember(Member member){
         this.member = member;
     }
+
+    //글 수정 업데이트
+    public void updatePost(PostDto postDto){
+        this.title = postDto.getTitle();
+        this.content = postDto.getContent();
+    }
+
 
 
 
