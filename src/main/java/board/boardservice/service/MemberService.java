@@ -38,7 +38,7 @@ public class MemberService {
             }
         }
 
-        throw new InvalidCredentialsException("올바르지 않은 사용자 이름 또는 비밀번호입니다.");
+       return null;
 
 
     }
