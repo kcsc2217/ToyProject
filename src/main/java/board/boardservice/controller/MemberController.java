@@ -1,5 +1,6 @@
 package board.boardservice.controller;
 
+import board.boardservice.controller.form.MemberForm;
 import board.boardservice.controller.form.MemberLoginForm;
 import board.boardservice.domain.Member;
 import board.boardservice.service.MemberService;
@@ -23,6 +24,29 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class MemberController {
 
     private final MemberService memberService;
+
+    @GetMapping("/new")
+    public String createForm(Model model){
+        model.addAttribute("memberForm", new MemberForm());
+
+        return "members/create";
+
+    }
+
+    @PostMapping("/new")
+    public String create(@Valid MemberForm memberForm, BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            log.info("에러 발생");
+            return "members/create";
+        }
+        Member member = Member.createMember(memberForm);
+
+        memberService.join(member);
+
+        return "redirect:/members/login";
+
+
+    }
 
     @GetMapping("/login")
     public String loginForm(Model model){

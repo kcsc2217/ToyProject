@@ -13,7 +13,18 @@
 
 <style>
     .fieldError {
-    border-color: #bd2130;
+      color: #bd2130; /* 필드 오류 메시지의 글꼴 색상을 변경할 수 있습니다. */
+        font-size: 14px; /* 필드 오류 메시지의 글꼴 크기를 변경할 수 있습니다. */
+        margin-top: 5px; /* 필드 오류 메시지 위 여백을 조정할 수 있습니다. */
+    }
+
+    .globalError {
+        color: #bd2130; /* 글꼴 색상을 변경할 수 있습니다. */
+        background-color: #f8d7da; /* 배경색을 변경할 수 있습니다. */
+        padding: 10px; /* 여백을 추가할 수 있습니다. */
+        border: 1px solid #f5c6cb; /* 테두리를 추가할 수 있습니다. */
+        border-radius: 5px; /* 테두리 모양을 변경할 수 있습니다. */
+        margin-bottom: 10px; /* 글로벌 오류 메시지 사이의 여백을 추가할 수 있습니다. */
     }
 </style>
 
@@ -23,22 +34,22 @@
         <span class="error animated tada" id="msg"></span>
         <form name="form1" class="box" th:action th:object="${memberLoginForm}" method="post" onsubmit="return checkStuff()">
             <div th:if="${#fields.hasGlobalErrors()}">
-                <p class="field-error" th:each="err : ${#fields.globalErrors()}"
+                <p class="globalError" th:each="err : ${#fields.globalErrors()}"
                    th:text="${err}">전체 오류 메시지</p>
             </div>
             <h4>Admin<span>Dashboard</span></h4>
             <h5>Sign in to your account.</h5>
             <input type="text" th:field="*{username}" autocomplete="off" class="form-control" placeholder="ID를 입력하세요"
-                   th:class="${#fields.hasErrors('username')}? 'form-control fieldError' : 'form-control'">
-            <p th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="error"></p>
+                   th:errorclass="fieldError">
+            <div class="fieldError" th:errors="*{username}" />
 
             <i class="typcn typcn-eye" id="eye"></i>
             <input type="password" th:field="*{password}" autocomplete="off" class="form-control" placeholder="Password를 입력하세요"
-                   th:class="${#fields.hasErrors('password')}? 'form-control fieldError' : 'form-control'">
-            <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="error"></p>
+                   th:errorclass="fieldError">
+            <div class="fieldError" th:errors="*{password}" />
             <input type="submit" value="Sign in" class="btn1">
         </form>
-        <a href="#" class="dnthave">Don’t have an account? Sign up</a>
+        <a href="/members/new" class="dnthave">Don’t have an account? Sign up</a>
     </div>
     <div class="footer">
         <span>Made with <i class="fa fa-heart pulse"></i> <a href="https://codepen.io/lordgamer2354">By Anees Khan</a></span>

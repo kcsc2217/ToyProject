@@ -34,8 +34,8 @@ body, html {
   border-radius: 9px;
   border-top: 10px solid #79a6fe;
   border-bottom: 10px solid #8BD17C;
-  width: 400px;
-  height: 500px;
+  width: 500px;
+  height: 600px;
   box-shadow: 1px 1px 108.8px 19.2px rgb(25,31,53);
 }
 
@@ -113,19 +113,19 @@ label span {
 }
 
 .btn1 {
-  border:0;
+  border: 0;
   background: #7f5feb;
   color: #dfdeee;
   border-radius: 100px;
-  width: 340px;
-  height: 49px;
+  width: 500px; /* 버튼의 너비를 조정 */
+  height: 40px;
   font-size: 16px;
-  position: absolute;
-  top: 79%;
-  left: 8%;
+  margin-top: 20px; /* 버튼 위 여백 조정 */
   transition: 0.3s;
   cursor: pointer;
+  padding: 15px 0; /* 버튼의 높이를 조정 */
 }
+
 
 .btn1:hover {
   background: #5d33e6;

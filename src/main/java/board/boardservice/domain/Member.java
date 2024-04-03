@@ -1,5 +1,6 @@
 package board.boardservice.domain;
 
+import board.boardservice.controller.form.MemberForm;
 import board.boardservice.domain.dto.MemberDTO;
 import jakarta.persistence.*;
 import lombok.*;
@@ -55,6 +56,16 @@ public class Member {
         this.phoneNumber = memberDTO.getPhoneNumber();
 
     }
+
+    public static Member createMember(MemberForm memberForm){
+        Member member = new Member(null, memberForm.getUsername(), memberForm.getName(), memberForm.getPassword(), memberForm.getEmail(),
+                new Address(memberForm.getCity(), memberForm.getStreet(), memberForm.getZipcode()), memberForm.getGender(), memberForm.getBirthDay(),
+                memberForm.getPhoneNumber());
+
+        return member;
+    }
+
+
 
 
 }

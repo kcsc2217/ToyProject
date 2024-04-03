@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>회원가입</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <!-- JavaScript -->
+    <script src="/js/script.js"></script>
+</head>
+
+<style>
+    .fieldError {
+        color: #bd2130; /* 필드 오류 메시지의 글꼴 색상을 변경할 수 있습니다. */
+        font-size: 14px; /* 필드 오류 메시지의 글꼴 크기를 변경할 수 있습니다. */
+        margin-top: 5px; /* 필드 오류 메시지 위 여백을 조정할 수 있습니다. */
+    }
+
+    .globalError {
+        color: #bd2130; /* 글꼴 색상을 변경할 수 있습니다. */
+        background-color: #f8d7da; /* 배경색을 변경할 수 있습니다. */
+        padding: 10px; /* 여백을 추가할 수 있습니다. */
+        border: 1px solid #f5c6cb; /* 테두리를 추가할 수 있습니다. */
+        border-radius: 5px; /* 테두리 모양을 변경할 수 있습니다. */
+        margin-bottom: 10px; /* 글로벌 오류 메시지 사이의 여백을 추가할 수 있습니다. */
+    }
+
+    .container {
+        width: 80%; /* 컨테이너 너비 조정 */
+        margin: 0 auto; /* 가운데 정렬 */
+        position: relative; /* 상대 위치 설정 */
+        height: 700px; /* 컨테이너 높이 조정 */
+        display: flex; /* 컨테이너의 자식 요소를 가로로 정렬하기 위해 */
+        flex-direction: column; /* 자식 요소를 세로로 정렬하기 위해 */
+        justify-content: center; /* 세로 방향 가운데 정렬 */
+        align-items: center; /* 가로 방향 가운데 정렬 */
+    }
+
+    .footer {
+        position: absolute;
+        bottom: 20px; /* 아래 여백 조정 */
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100%;
+        color: #78797d;
+        font-size: 14px;
+        text-align: center;
+    }
+
+    .dnthave {
+        position: absolute;
+        bottom: 80px; /* 이동할 위치 조정 */
+        left: 50%;
+        transform: translateX(-50%);
+        color: #5c7fda;
+        text-decoration: none;
+        font-size: 14px;
+    }
+
+    .form-control {
+        background-color: #262e49;
+        border: 1px solid #79A6FE;
+        border-radius: 5px;
+        color: #d6d6d6;
+        padding: 10px;
+        width: 80%;
+        outline: none;
+        margin-top: 10px; /* 수정된 부분: 모든 입력 요소 위 여백 조정 */
+    }
+
+    select.form-control:focus {
+        border-color: #79A6FE;
+    }
+
+    select.form-control option {
+        background-color: #1d243d;
+        color: #d6d6d6;
+    }
+
+    select.form-control option:hover {
+        background-color: #1a1f35;
+    }
+
+    .btn1 {
+        border: 0;
+        background: #7f5feb;
+        color: #dfdeee;
+        border-radius: 5px; /* 버튼의 둥근 모서리 조정 */
+        width: 80%; /* 버튼의 너비 조정 */
+        height: 40px; /* 버튼의 높이 조정 */
+        font-size: 16px;
+        margin-top: 10px; /* 버튼과 다음 요소 사이 여백 조정 */
+        transition: 0.3s;
+        cursor: pointer;
+        padding: 15px 0;
+    }
+
+    h4 {
+        margin-top: 10px; /* 회원가입 텍스트의 상단 여백 조정 */
+    }
+</style>
+
+<body id="particles-js">
+<div class="animated bounceInDown">
+    <div class="container">
+        <span class="error animated tada" id="msg"></span>
+        <form name="form1" class="box" th:action="@{/members/new}" th:object="${memberForm}" method="post" onsubmit="return checkStuff()">
+            <div th:if="${#fields.hasGlobalErrors()}">
+                <p class="globalError" th:each="err : ${#fields.globalErrors()}" th:text="${err}">전체 오류 메시지</p>
+            </div>
+            <h4>회원가입</h4>
+            <input type="text" th:field="*{username}" autocomplete="off" class="form-control" placeholder="ID를 입력하세요" th:errorclass="fieldError">
+            <div class="fieldError" th:errors="*{username}" />
+            <input type="text" th:field="*{name}" autocomplete="off" class="form-control" placeholder="본인 이름을 입력하세요" th:errorclass="fieldError">
+            <div class="fieldError" th:errors="*{name}" />
+            <input type="password" th:field="*{password}" autocomplete="off" class="form-control" placeholder="Password를 입력하세요" th:errorclass="fieldError">
+            <div class="fieldError" th:errors="*{password}" />
+            <input type="text" th:field="*{email}" autocomplete="off" class="form-control" placeholder="이메일을 입력하세요" th:errorclass="fieldError">
+            <div class="fieldError" th:errors="*{email}" />
+
+            <input type="text" th:field="*{city}" autocomplete="off" class="form-control" placeholder="도시를 입력하세요" th:errorclass="fieldError">
+            <div class="fieldError" th:errors="*{city}" />
+
+            <input type="text" th:field="*{street}" autocomplete="off" class="form-control" placeholder="거리를 입력하세요" th:errorclass="fieldError">
+            <div class="fieldError" th:errors="*{street}" />
+
+            <input type="text" th:field="*{zipcode}" autocomplete="off" class="form-control" placeholder="우편번호를 입력하세요" th:errorclass="fieldError">
+            <div class="fieldError" th:errors="*{zipcode}" />
+
+            <!-- 수정된 셀렉트 박스 -->
+            <select th:field="*{gender}" class="form-control" th:errorclass="fieldError">
+                <option value="">성별 선택</option>
+                <option th:each="gender : ${T(board.boardservice.domain.Gender).values()}"
+                        th:value="${gender}" th:text="${gender}">Gender</option>
+            </select>
+            <div class="fieldError" th:errors="*{gender}" />
+            <input type="date" th:field="*{birthDay}" autocomplete="off" class="form-control" th:errorclass="fieldError" style="width: 80%;">
+            <div class="fieldError" th:errors="*{birthDay}" />
+            <input type="text" th:field="*{phoneNumber}" autocomplete="off" class="form-control" placeholder="전화번호를 입력하세요" th:errorclass="fieldError">
+            <div class="fieldError" th:errors="*{phoneNumber}" />
+            <input type="submit" value="회원가입" class="btn1">
+        </form>
+        <a href="/members/login" class="dnthave">이미 회원이신가요? 로그인하기</a>
+    </div>
+</div>
+</body>
+</html>
