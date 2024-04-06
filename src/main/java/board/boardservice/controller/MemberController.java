@@ -81,6 +81,18 @@ public class MemberController {
 
     }
 
+    //로그아웃 폼
+    @PostMapping("/logout")
+    public String logout(HttpServletRequest request){
+
+        HttpSession session = request.getSession(false);
+        if(session != null){
+            session.invalidate();
+        }
+
+        return "redirect:/members/login";
+    }
+
 
 
 
