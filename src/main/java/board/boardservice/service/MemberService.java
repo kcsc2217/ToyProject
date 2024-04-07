@@ -28,7 +28,7 @@ public class MemberService {
     }
 
     // 로그인 기능
-    public Member login(String username,String password)  throws InvalidCredentialsException {
+    public Member login(String username,String password)  {
         List<Member> findMemberList = memberRepository.findByName(username);
 
         for (Member member : findMemberList) {
@@ -38,8 +38,7 @@ public class MemberService {
             }
         }
 
-       return null;
-
+        throw new InvalidCredentialsException("존재하지 않는 회원입니다.");
 
     }
 

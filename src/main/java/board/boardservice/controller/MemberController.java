@@ -4,6 +4,7 @@ import board.boardservice.controller.form.MemberForm;
 import board.boardservice.controller.form.MemberLoginForm;
 import board.boardservice.domain.Member;
 import board.boardservice.domain.dto.MemberDTO;
+import board.boardservice.exception.InvalidCredentialsException;
 import board.boardservice.service.MemberService;
 import board.boardservice.session.SessionConst;
 import jakarta.servlet.http.HttpServletRequest;
@@ -26,7 +27,7 @@ public class MemberController {
 
     // 회원가입 폼
     @GetMapping("/new")
-    public String createForm(Model model){
+    public String createForm(Model model) {
         model.addAttribute("memberForm", new MemberForm());
 
         return "members/create";
@@ -36,14 +37,25 @@ public class MemberController {
     // 회원가입
 
     @PostMapping("/new")
-    public String create(@Valid MemberForm memberForm, BindingResult bindingResult){
-        if(bindingResult.hasErrors()){
+    public String create(@Valid MemberForm memberForm, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
             log.info("에러 발생");
+
+            model.addAttribute("errors", bindingResult.getAllErrors());
+
             return "members/create";
         }
         Member member = Member.createMember(memberForm);
 
-        memberService.join(member);
+        try {
+            memberService.join(member);
+
+        } catch (IllegalStateException e) {
+            bindingResult.reject("globalError", e.getMessage());
+            log.info("글로벌 에러");
+            return "members/create";
+        }
+
 
         return "redirect:/members/login";
 
@@ -53,7 +65,7 @@ public class MemberController {
 
     //로그인 폼
     @GetMapping("/login")
-    public String loginForm(Model model){
+    public String loginForm(Model model) {
         model.addAttribute("memberLoginForm", new MemberLoginForm());
 
         return "members/login";
@@ -62,26 +74,28 @@ public class MemberController {
 
     @PostMapping("/login")
     public String login(@Valid MemberLoginForm memberLoginForm, BindingResult bindingResult, HttpServletRequest request,
-                        @RequestParam(defaultValue = "/") String redirectURL){
+                        @RequestParam(defaultValue = "/") String redirectURL) {
 
-        if(bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             log.info("에러 발생");
             return "members/login";
         }
 
-        Member loginMember = memberService.login(memberLoginForm.getUsername(), memberLoginForm.getPassword());
 
-        log.info("login? {}", loginMember);
+        try {
+            Member loginMember = memberService.login(memberLoginForm.getUsername(), memberLoginForm.getPassword());
 
-        if (loginMember == null) {
-            bindingResult.reject("loginFail", "아이디 또는 비밀번호가 맞지 않습니다.");
+            log.info("login? {}", loginMember);
+
+            HttpSession session = request.getSession();
+
+            session.setAttribute(SessionConst.LOGIN_MEMBER, loginMember);
+
+        } catch (InvalidCredentialsException e) {
+            bindingResult.reject("loginFail", e.getMessage());
+
             return "members/login";
         }
-
-        HttpSession session = request.getSession();
-
-        session.setAttribute(SessionConst.LOGIN_MEMBER, loginMember);
-
 
 
         return "redirect:" + redirectURL;
@@ -90,10 +104,10 @@ public class MemberController {
 
     //로그아웃
     @PostMapping("/logout")
-    public String logout(HttpServletRequest request){
+    public String logout(HttpServletRequest request) {
 
         HttpSession session = request.getSession(false);
-        if(session != null){
+        if (session != null) {
             session.invalidate();
         }
 
@@ -101,43 +115,38 @@ public class MemberController {
     }
 
 
-
     //   회원 정보수정
     @GetMapping("/update")
-  public String update(@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false)
-    Member loginMember,Model model){
+    public String update(@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false)
+                         Member loginMember, Model model) {
 
         MemberDTO memberDTO = MemberDTO.createMemberDTO(loginMember);
 
-        model.addAttribute("memberDTO",memberDTO);
+        model.addAttribute("memberDTO", memberDTO);
         return "members/update";
     }
 
     //회원 정보수정
 
     @PostMapping("/update")
-    public String update(@Valid @ModelAttribute MemberDTO memberDTO,BindingResult bindingResult,
+    public String update(@Valid @ModelAttribute MemberDTO memberDTO, BindingResult bindingResult,
                          @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false)
-                         Member loginMember){
+                         Member loginMember) {
 
-        if(bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             log.info("에러 발생");
             return "members/update";
         }
 
-        if(loginMember == null){
+        if (loginMember == null) {
             log.info("빈 객체");
             return "redirect:/members/login";
         }
-        memberService.updateMember(loginMember.getId(),memberDTO);
+        memberService.updateMember(loginMember.getId(), memberDTO);
 
         return "redirect:/";
 
     }
-
-
-
-
 
 
 }

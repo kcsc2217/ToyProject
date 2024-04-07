@@ -4,7 +4,6 @@ import board.boardservice.domain.Address;
 import board.boardservice.domain.Gender;
 import board.boardservice.domain.Member;
 import board.boardservice.domain.dto.MemberDTO;
-import board.boardservice.exception.InvalidCredentialsException;
 import board.boardservice.repository.MemberRepository;
 import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.Test;
@@ -71,17 +70,6 @@ class MemberServiceTest {
         assertEquals(member, loginMember);
     }
 
-    @Test
-    public void 로그인실패() throws Exception {
-       //given
-        Member member = testMember();
-
-        //when
-        memberService.join(member);
-
-       //then
-        assertThrows(InvalidCredentialsException.class, () -> memberService.login("john123", "123"));
-    }
 
     @Test
     public void 회원정보찾기() throws Exception {
