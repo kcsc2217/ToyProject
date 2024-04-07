@@ -21,7 +21,7 @@ public class HomeController {
     ){
 
         if(loginMember == null){
-            return "members/login";
+            return "redirect:/members/login";
         }
         model.addAttribute("member", loginMember);
 

@@ -132,6 +132,7 @@
                 <option value="">성별 선택</option>
                 <option th:each="gender : ${T(board.boardservice.domain.Gender).values()}"
                         th:value="${gender}" th:text="${gender}">Gender</option>
+
             </select>
             <div class="fieldError" th:errors="*{gender}" />
             <input type="date" th:field="*{birthDay}" autocomplete="off" class="form-control" th:errorclass="fieldError" style="width: 80%;">

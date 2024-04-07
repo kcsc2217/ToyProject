@@ -3,6 +3,7 @@ package board.boardservice.controller;
 import board.boardservice.controller.form.MemberForm;
 import board.boardservice.controller.form.MemberLoginForm;
 import board.boardservice.domain.Member;
+import board.boardservice.domain.dto.MemberDTO;
 import board.boardservice.service.MemberService;
 import board.boardservice.session.SessionConst;
 import jakarta.servlet.http.HttpServletRequest;
@@ -13,9 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @Slf4j
@@ -25,6 +24,7 @@ public class MemberController {
 
     private final MemberService memberService;
 
+    // 회원가입 폼
     @GetMapping("/new")
     public String createForm(Model model){
         model.addAttribute("memberForm", new MemberForm());
@@ -32,6 +32,8 @@ public class MemberController {
         return "members/create";
 
     }
+
+    // 회원가입
 
     @PostMapping("/new")
     public String create(@Valid MemberForm memberForm, BindingResult bindingResult){
@@ -48,15 +50,19 @@ public class MemberController {
 
     }
 
+
+    //로그인 폼
     @GetMapping("/login")
     public String loginForm(Model model){
         model.addAttribute("memberLoginForm", new MemberLoginForm());
 
         return "members/login";
     }
+    //로그인 구현 완료
 
     @PostMapping("/login")
-    public String login(@Valid MemberLoginForm memberLoginForm, BindingResult bindingResult, HttpServletRequest request){
+    public String login(@Valid MemberLoginForm memberLoginForm, BindingResult bindingResult, HttpServletRequest request,
+                        @RequestParam(defaultValue = "/") String redirectURL){
 
         if(bindingResult.hasErrors()){
             log.info("에러 발생");
@@ -77,11 +83,11 @@ public class MemberController {
         session.setAttribute(SessionConst.LOGIN_MEMBER, loginMember);
 
 
-        return "redirect:/";
+        return "redirect:" + redirectURL;
 
     }
 
-    //로그아웃 폼
+    //로그아웃
     @PostMapping("/logout")
     public String logout(HttpServletRequest request){
 
@@ -90,7 +96,16 @@ public class MemberController {
             session.invalidate();
         }
 
-        return "redirect:/members/login";
+        return "redirect:/";
+    }
+
+
+
+    //   회원 정보수정
+    @GetMapping("/update")
+
+  public String update(@ModelAttribute MemberDTO memberDTO){
+        return "members/update";
     }
 
 

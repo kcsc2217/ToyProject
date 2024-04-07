@@ -49,7 +49,9 @@ public class Member {
 
     public void updateMember(MemberDTO memberDTO){
         this.name = memberDTO.getName();
-        this.address = memberDTO.getAddress();
+        Address adress = new Address(memberDTO.getCity(), memberDTO.getStreet(), memberDTO.getZipcode());
+        this.address = adress;
+
         this.email = memberDTO.getEmail();
         this.gender = memberDTO.getGender();
         this.birthDay = memberDTO.getBirthDay();
