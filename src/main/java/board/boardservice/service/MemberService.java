@@ -52,9 +52,9 @@ public class MemberService {
     // 회원 수정
     @Transactional
     public void updateMember(Long id, MemberDTO memberDTO){
-        Member findmember = memberRepository.findOne(id);
+        Member findMember = memberRepository.findOne(id);
 
-        findmember.updateMember(memberDTO);
+        findMember.updateMember(memberDTO);
     }
 
     //회원 탈퇴

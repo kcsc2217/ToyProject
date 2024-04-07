@@ -114,8 +114,9 @@ class MemberServiceTest {
        //given
         Member member = testMember();
 
-        MemberDTO memberDTO = new MemberDTO("이성원", "k12002@nate.com", new Address("서울", "충무로", "ㄹㅇ"),
-                Gender.MALE, LocalDate.of(1990, 5, 15), "010-7119-xxxx");
+        Member member2 = testMember2();
+
+        MemberDTO memberDTO = MemberDTO.createMemberDTO(member2);
 
 
         //when
@@ -129,7 +130,7 @@ class MemberServiceTest {
 
 
         //then
-       assertEquals(findMember.getName(), "이성원");
+       assertEquals(findMember.getName(), "지우");
 
     }
     
@@ -137,6 +138,7 @@ class MemberServiceTest {
     public void 회원탈퇴() throws Exception {
        //given
         Member member = testMember();
+
 
         //when
         memberService.join(member);
@@ -160,6 +162,23 @@ class MemberServiceTest {
         //given
         Member member = Member.builder()
                 .name("John")
+                .username("john123")
+                .address(address)
+                .phoneNumber("010-xxxx-xxxx")
+                .password("password123")
+                .email("john@example.com")
+                .birthDay(LocalDate.of(1990, 5, 15)) // 생일 필드 설정
+                // 나머지 필드에 대한 설정
+                .build();
+
+        return member;
+    }
+
+    private static Member testMember2() {
+        Address address = new Address("지우", "전주", "454");
+        //given
+        Member member = Member.builder()
+                .name("지우")
                 .username("john123")
                 .address(address)
                 .phoneNumber("010-xxxx-xxxx")

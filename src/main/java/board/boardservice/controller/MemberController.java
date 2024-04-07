@@ -83,6 +83,7 @@ public class MemberController {
         session.setAttribute(SessionConst.LOGIN_MEMBER, loginMember);
 
 
+
         return "redirect:" + redirectURL;
 
     }
@@ -103,9 +104,35 @@ public class MemberController {
 
     //   회원 정보수정
     @GetMapping("/update")
+  public String update(@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false)
+    Member loginMember,Model model){
 
-  public String update(@ModelAttribute MemberDTO memberDTO){
+        MemberDTO memberDTO = MemberDTO.createMemberDTO(loginMember);
+
+        model.addAttribute("memberDTO",memberDTO);
         return "members/update";
+    }
+
+    //회원 정보수정
+
+    @PostMapping("/update")
+    public String update(@Valid @ModelAttribute MemberDTO memberDTO,BindingResult bindingResult,
+                         @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false)
+                         Member loginMember){
+
+        if(bindingResult.hasErrors()){
+            log.info("에러 발생");
+            return "members/update";
+        }
+
+        if(loginMember == null){
+            log.info("빈 객체");
+            return "redirect:/members/login";
+        }
+        memberService.updateMember(loginMember.getId(),memberDTO);
+
+        return "redirect:/";
+
     }
 
 
