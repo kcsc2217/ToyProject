@@ -1,7 +1,7 @@
 package board.boardservice.domain;
 
 import board.boardservice.controller.form.MemberForm;
-import board.boardservice.domain.dto.MemberDTO;
+import board.boardservice.domain.dto.member.MemberUpdateDTO;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -47,7 +47,8 @@ public class Member {
     private String phoneNumber;
 
 
-    public void updateMember(MemberDTO memberDTO){
+    // update 로직
+    public void updateMember(MemberUpdateDTO memberDTO){
         this.name = memberDTO.getName();
         Address adress = new Address(memberDTO.getCity(), memberDTO.getStreet(), memberDTO.getZipcode());
         this.address = adress;
@@ -59,6 +60,7 @@ public class Member {
 
     }
 
+    // 멤버를 도메인 안에서 생성
     public static Member createMember(MemberForm memberForm){
         Member member = new Member(null, memberForm.getUsername(), memberForm.getName(), memberForm.getPassword(), memberForm.getEmail(),
                 new Address(memberForm.getCity(), memberForm.getStreet(), memberForm.getZipcode()), memberForm.getGender(), memberForm.getBirthDay(),

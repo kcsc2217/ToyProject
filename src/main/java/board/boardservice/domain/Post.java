@@ -19,11 +19,11 @@ public class Post {
 
 
     // 처음 글을 생성 할 때
-    public Post(String title, String content) {
+    public Post(Member member, String title, String content) {
         this.title = title;
         this.content = content;
+        addMember(member);
     }
-
 
 
     @Id
@@ -44,32 +44,17 @@ public class Post {
     List<Comment> comments = new ArrayList<>();
 
 
-
-
     //연관 관계 메서드
 
-    public void addMember(Member member){
+    public void addMember(Member member) {
         this.member = member;
     }
 
     //글 수정 업데이트
-    public void updatePost(PostDto postDto){
+    public void updatePost(PostDto postDto) {
         this.title = postDto.getTitle();
         this.content = postDto.getContent();
     }
-
-    public static Post createPost(String title, String content, Member member){
-        Post post = new Post(title, content);
-        post.addMember(member);
-
-        return post;
-
-    }
-
-
-
-
-
 
 
 }

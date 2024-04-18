@@ -1,12 +1,8 @@
-package board.boardservice.domain.dto;
+package board.boardservice.domain.dto.member;
 
-import board.boardservice.domain.Address;
 import board.boardservice.domain.Gender;
 import board.boardservice.domain.Member;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,7 +10,7 @@ import java.time.LocalDate;
 
 @Getter
 @Setter
-public class MemberDTO {
+public class MemberUpdateDTO {
 
     @NotNull(message = "이름을 입력하세요")
     private String name;
@@ -38,8 +34,8 @@ public class MemberDTO {
     @NotNull(message = "핸드폰 번호를 입력하세요")
     private String phoneNumber;
 
-    public static MemberDTO createMemberDTO(Member member){
-        MemberDTO memberDTO = new MemberDTO();
+    public static MemberUpdateDTO createMemberDTO(Member member){
+        MemberUpdateDTO memberDTO = new MemberUpdateDTO();
 
         memberDTO.name = member.getName();
         memberDTO.email = member.getEmail();

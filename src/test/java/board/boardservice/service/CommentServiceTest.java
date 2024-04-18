@@ -34,7 +34,7 @@ class CommentServiceTest {
        //given
         CommentForm commentForm = new CommentForm("댓글1");
         Member member = testMember();
-        Post post = new Post("zz"," zz");
+        Post post = new Post(member, "zz"," zz");
 
         em.persist(post);
         em.persist(member);

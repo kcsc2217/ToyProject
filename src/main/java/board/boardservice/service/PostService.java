@@ -27,7 +27,8 @@ public class PostService {
 
         Member findMember = memberRepository.findOne(memberId);
 
-        Post post = Post.createPost(postForm.getTitle(), postForm.getContent(), findMember);
+        Post post = new Post(findMember, postForm.getContent(), postForm.getTitle());
+
 
         postRepository.save(post);
 

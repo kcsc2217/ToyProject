@@ -3,8 +3,9 @@ package board.boardservice.controller;
 import board.boardservice.controller.form.MemberForm;
 import board.boardservice.controller.form.MemberLoginForm;
 import board.boardservice.domain.Member;
-import board.boardservice.domain.dto.MemberDTO;
-import board.boardservice.exception.InvalidCredentialsException;
+import board.boardservice.domain.dto.member.MemberUpdateDTO;
+import board.boardservice.domain.dto.member.MemberDeleteDTO;
+import board.boardservice.service.exception.InvalidCredentialsException;
 import board.boardservice.service.MemberService;
 import board.boardservice.session.SessionConst;
 import jakarta.servlet.http.HttpServletRequest;
@@ -91,12 +92,14 @@ public class MemberController {
 
             session.setAttribute(SessionConst.LOGIN_MEMBER, loginMember);
 
+            log.info("session {}", session);
+
+
         } catch (InvalidCredentialsException e) {
             bindingResult.reject("loginFail", e.getMessage());
 
             return "members/login";
         }
-
 
         return "redirect:" + redirectURL;
 
@@ -120,7 +123,7 @@ public class MemberController {
     public String update(@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false)
                          Member loginMember, Model model) {
 
-        MemberDTO memberDTO = MemberDTO.createMemberDTO(loginMember);
+        MemberUpdateDTO memberDTO = MemberUpdateDTO.createMemberDTO(loginMember);
 
         model.addAttribute("memberDTO", memberDTO);
         return "members/update";
@@ -129,7 +132,7 @@ public class MemberController {
     //회원 정보수정
 
     @PostMapping("/update")
-    public String update(@Valid @ModelAttribute MemberDTO memberDTO, BindingResult bindingResult,
+    public String update(@Valid @ModelAttribute MemberUpdateDTO memberDTO, BindingResult bindingResult,
                          @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false)
                          Member loginMember) {
 
@@ -145,6 +148,45 @@ public class MemberController {
         memberService.updateMember(loginMember.getId(), memberDTO);
 
         return "redirect:/";
+
+    }
+
+    // 회원 탈퇴
+    @GetMapping("/delete")
+    public String deleteForm(MemberDeleteDTO memberDeleteDTO, Model model) {
+        model.addAttribute("memberDeleteDTO", memberDeleteDTO);
+
+        return "members/delete";
+
+    }
+
+    @PostMapping("/delete")
+    public String delete(@Valid @ModelAttribute MemberDeleteDTO memberdeleteDTO, BindingResult bindingResult,
+                         @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false)
+                         Member loginMember, HttpServletRequest request) {
+
+        if (bindingResult.hasErrors()) {
+            log.info("에러 발생");
+            return "members/delete";
+        }
+
+        if (memberService.passwordExact(loginMember, memberdeleteDTO.getPassword())) {
+            log.info("패스워드 일치");
+            memberService.delete(loginMember.getId());
+            HttpSession session = request.getSession(false);
+
+            if (session != null) {
+                session.invalidate();
+            }
+
+            return "redirect:/members/login";
+        }
+        // 탈퇴시 패스워드와 일치 여부 구현 추후 비밀번호가 틀렸을시 구현
+
+        bindingResult.reject("deleteError", "해당 비밀번호가 틀립니다");
+
+        return "members/delete";
+
 
     }
 

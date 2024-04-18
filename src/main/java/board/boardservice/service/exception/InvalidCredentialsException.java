@@ -1,4 +1,4 @@
-package board.boardservice.exception;
+package board.boardservice.service.exception;
 
 public class InvalidCredentialsException extends RuntimeException{
     public InvalidCredentialsException() {

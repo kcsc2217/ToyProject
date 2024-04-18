@@ -1,8 +1,8 @@
 package board.boardservice.service;
 
 import board.boardservice.domain.Member;
-import board.boardservice.domain.dto.MemberDTO;
-import board.boardservice.exception.InvalidCredentialsException;
+import board.boardservice.domain.dto.member.MemberUpdateDTO;
+import board.boardservice.service.exception.InvalidCredentialsException;
 import board.boardservice.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -38,7 +38,7 @@ public class MemberService {
             }
         }
 
-        throw new InvalidCredentialsException("존재하지 않는 회원입니다.");
+        throw new InvalidCredentialsException("존재하지 않는 회원입니다");
 
     }
 
@@ -50,7 +50,7 @@ public class MemberService {
 
     // 회원 수정
     @Transactional
-    public void updateMember(Long id, MemberDTO memberDTO){
+    public void updateMember(Long id, MemberUpdateDTO memberDTO){
         Member findMember = memberRepository.findOne(id);
 
         findMember.updateMember(memberDTO);
@@ -63,8 +63,20 @@ public class MemberService {
     }
 
 
+    //회원의 비밀번호와 일치 유무
+
+    public Boolean passwordExact(Member member, String password){
+
+        if(member.getPassword().equals(password)){
+            return true;
+        }
+        return false;
+    }
 
 
+
+
+    // 회원 존재 유무
 
     private void validateMember(Member member){
         List<Member> findByMember = memberRepository.findByName(member.getUsername());

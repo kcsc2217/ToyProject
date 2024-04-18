@@ -1,9 +1,8 @@
 package board.boardservice.service;
 
 import board.boardservice.domain.Address;
-import board.boardservice.domain.Gender;
 import board.boardservice.domain.Member;
-import board.boardservice.domain.dto.MemberDTO;
+import board.boardservice.domain.dto.member.MemberUpdateDTO;
 import board.boardservice.repository.MemberRepository;
 import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.Test;
@@ -104,7 +103,7 @@ class MemberServiceTest {
 
         Member member2 = testMember2();
 
-        MemberDTO memberDTO = MemberDTO.createMemberDTO(member2);
+        MemberUpdateDTO memberDTO = MemberUpdateDTO.createMemberDTO(member2);
 
 
         //when
