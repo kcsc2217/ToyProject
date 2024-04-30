@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +24,7 @@ public class Post {
     public Post(Member member, String title, String content) {
         this.title = title;
         this.content = content;
+        this.createDate = LocalDate.now();
         addMember(member);
     }
 
@@ -40,8 +43,15 @@ public class Post {
 
     private String content;
 
+    private LocalDate createDate;
+
+    @Column(columnDefinition = "integer default 0", nullable = false)
+    private int view;
+
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     List<Comment> comments = new ArrayList<>();
+
+
 
 
     //연관 관계 메서드
@@ -54,6 +64,13 @@ public class Post {
     public void updatePost(PostDto postDto) {
         this.title = postDto.getTitle();
         this.content = postDto.getContent();
+    }
+
+
+
+
+    public static Post createPost(Member member, String title, String content){
+        return new Post(member, title, content);
     }
 
 

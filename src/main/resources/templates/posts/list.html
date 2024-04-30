@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>리스트</title>
+
+    <link rel="stylesheet" type="text/css" href="/css/board.css">
+</head>
+<body>
+
+<table>
+    <thead>
+    <tr>
+        <th>번호</th>
+        <th>제목</th>
+        <th>작성자</th>
+        <th>작성일</th>
+        <th>조회수</th>
+
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="post: ${posts}">
+        <td th:text="${post.id}">James</td>
+        <td th:text="${post.title}">Matman</td>
+        <td th:text="${post.member.name}">(713) 123-8965</td>
+        <td th:text="${post.view}">jmatman@stewart.com</a></td>
+        <td th:text="${post.createDate}">01/13/1979</td>
+    </tr>
+
+    </tbody>
+</table>
+
+</body>
+</html>

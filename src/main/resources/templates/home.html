@@ -2,27 +2,36 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>홈</title>
-    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <title>회원가입</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" type="text/css" href="/css/create.css">
+    <!-- JavaScript -->
+
+    <link rel="stylesheet" type="text/css" href="/css/btn.css">
+    <script src="/js/script.js"></script>
 </head>
-<body>
 
-<h1>Welcome to Our Website!</h1>
+<body id="particles-js">
+<div class="animated bounceInDown">
+    <div class="container">
 
-<p>To continue, please sign in or sign up.</p>
+        <!-- 추가한 부분 -->
+        <div th:if="${member != null}" class="welcome-message">
+            <p>어서오세요, <span th:text="${member.name}">회원 이름</span>님</p>
+        </div>
+        <span class="error animated tada" id="msg"></span>
+        <div class="buttons">
+            <ul>
+                <li><form th:action="@{/members/logout}" method="post"><button class="btn-hover color-1" type="submit">로그아웃</button></form></li>
+                <li><form th:action="@{/members/update}" method="get"><button class="btn-hover color-2" type="submit">수정하기</button></form></li>
+                <li><form th:action="@{/members/delete}" method="get"><button class="btn-hover color-3" type="submit">탈퇴하기</button></form></li>
+                <li><form th:action="@{/boards/lists}" method="get"><button class="btn-hover color-4" type="submit">게시판 목록</button></form></li>
+            </ul>
+        </div>
 
-<div>
-    <a href="/members/login">로그인</a>
-    <a href="/members/new">회원가입</a>
-    <a href="/members/delete">회원탈퇴</a>
-    <form th:action="@{/members/logout}" method="post">
-        <button class="w-100 btn btn-dark btn-lg" type="submit">
-            로그아웃
-        </button>
-    </form>
 
-    <a th:href="@{/members/update}">회원수정</a>
+
+    </div>
 </div>
-
 </body>
 </html>

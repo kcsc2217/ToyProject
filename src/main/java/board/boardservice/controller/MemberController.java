@@ -46,6 +46,7 @@ public class MemberController {
 
             return "members/create";
         }
+        //멤버 내에서 객체 생성 후 반한
         Member member = Member.createMember(memberForm);
 
         try {
@@ -122,6 +123,11 @@ public class MemberController {
     @GetMapping("/update")
     public String update(@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false)
                          Member loginMember, Model model) {
+
+        if(loginMember == null){
+            log.info("빈 객체");
+            return "redirect:/members/login";
+        }
 
         MemberUpdateDTO memberDTO = MemberUpdateDTO.createMemberDTO(loginMember);
 

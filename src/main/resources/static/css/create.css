@@ -150,6 +150,11 @@ label span {
     top: 95%;
     left: 24%;
 }
+.welcome-message p {
+    color: #007bff; /* 글자색 변경 */
+    font-size: 18px; /* 글꼴 크기 변경 */
+    font-weight: bold; /* 글꼴 굵기 변경 */
+}
 
 [type=checkbox]:checked + span:before {/* <-- style its checked state */
     font-family: FontAwesome;

@@ -15,6 +15,7 @@ import java.util.List;
 @Transactional(readOnly = true)
 public class MemberService {
 
+
     private final MemberRepository memberRepository;
 
     //회원 가입
@@ -27,20 +28,20 @@ public class MemberService {
 
     }
 
-    // 로그인 기능
-    public Member login(String username,String password)  {
-        List<Member> findMemberList = memberRepository.findByName(username);
+        // 로그인 기능
+        public Member login(String username,String password)  {
+            List<Member> findMemberList = memberRepository.findByName(username);
 
-        for (Member member : findMemberList) {
+            for (Member member : findMemberList) {
 
-            if(member.getPassword().equals(password)){
-                return member;
+                if(member.getPassword().equals(password)){
+                    return member;
+                }
             }
+
+            throw new InvalidCredentialsException("존재하지 않는 회원입니다");
+
         }
-
-        throw new InvalidCredentialsException("존재하지 않는 회원입니다");
-
-    }
 
     //아이디와 비밀번호 찾기
     public Member findMember(String username, String phoneNumber, String email){
@@ -65,7 +66,7 @@ public class MemberService {
 
     //회원의 비밀번호와 일치 유무
 
-    public Boolean passwordExact(Member member, String password){
+    public Boolean passwordExact(Member member, String password){   
 
         if(member.getPassword().equals(password)){
             return true;
