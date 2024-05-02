@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>글쓰기</title>
+    <style>
+        table {
+            margin: auto;
+        }
+        input[type="text"] {
+            border: 1.5px rgb(68, 136, 244) solid;
+            width: 500px;
+            height: 30px;
+            border-radius: 5px;
+            padding-left: 10px;
+        }
+        textarea {
+            border: 1.5px rgb(68, 136, 244) solid;
+            width: 500px;
+            height: 400px;
+            border-radius: 5px;
+            padding-left: 10px;
+            padding-top: 10px;
+            resize: none;
+        }
+        .header {
+            height: 30px;
+        }
+        input[type="submit"] {
+            width: 100px;
+            height: 40px;
+            font-size: 15px;
+            border: 0;
+            outline: 1.5px rgb(68, 136, 244) solid;
+            border-radius: 5px;
+            padding-left: 10px;
+            background-color: rgb(164, 199, 255);
+        }
+        .fieldError {
+        color: #bd2130; /* 필드 오류 메시지의 글꼴 색상을 변경할 수 있습니다. */
+        font-size: 14px; /* 필드 오류 메시지의 글꼴 크기를 변경할 수 있습니다. */
+        margin-top: 5px; /* 필드 오류 메시지 위 여백을 조정할 수 있습니다. */
+        }
+        input[type="submit"]:active {
+            width: 100px;
+            height: 40px;
+            font-size: 15px;
+            border: 0;
+            border-radius: 5px;
+            outline: 1.5px rgb(27, 76, 155) solid;
+            padding-left: 10px;
+            background-color: rgb(68, 136, 244);
+        }
+    </style>
+</head>
+<body>
+<form th:action th:object="${postForm}" method="post">
+    <table>
+        <tr><td><h2>글쓰기</h2></td></tr>
+        <tr><td class="header">Title</td></tr>
+        <tr><td><input type="text" th:field="*{title}" placeholder="제목을 입력하세요" name="title" th:errorclass="fieldError"></td></tr>
+        <div class="fieldError" th:errors="*{title}" />
+
+        <tr><td class="header">Comment</td></tr>
+        <tr><td><textarea th:field="*{content}" placeholder="내용을 입력하세요" name="detail" th:errorclass="fieldError"></textarea></td></tr>
+        <div class="fieldError" th:errors="*{content}" />
+        <tr><td><input type="submit" value="등록" onclick="alert('작성 완료!')"></td></tr>
+    </table>
+</form>
+</body>
+</html>

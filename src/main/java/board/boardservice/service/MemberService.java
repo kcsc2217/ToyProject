@@ -28,6 +28,10 @@ public class MemberService {
 
     }
 
+    public Member findId(Member member){
+        return memberRepository.findOne(member.getId());
+    }
+
         // 로그인 기능
         public Member login(String username,String password)  {
             List<Member> findMemberList = memberRepository.findByName(username);
