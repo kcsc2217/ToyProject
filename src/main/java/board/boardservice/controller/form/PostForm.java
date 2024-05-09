@@ -13,4 +13,16 @@ public class PostForm {
 
     @NotEmpty(message = "내용을 입력하세요")
     private String content;
+
+    public static PostForm PostCreate(String title, String content){
+        PostForm postForm = new PostForm();
+
+        postForm.title = title;
+        postForm.content = content;
+
+        return postForm;
+    }
+
+
+
 }

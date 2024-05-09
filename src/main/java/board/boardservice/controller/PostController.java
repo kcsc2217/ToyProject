@@ -100,10 +100,28 @@ public class PostController {
             return"redirect:/posts/list/" + findPost.getId(); // 게시글 목록 페이지로 리다이렉트
         }
 
+        PostForm postForm = PostForm.PostCreate(findPost.getTitle(), findPost.getContent());
+
         // 수정 권한이 있는 경우 수정 폼으로 이동
-        model.addAttribute("post", findPost);
+        model.addAttribute("postForm", postForm);
         return "posts/edit"; // 수정 폼 뷰로 이동
     }
+
+    @PostMapping("/edit")
+    public String edit(@Valid @ModelAttribute PostForm postForm, BindingResult bindingResult, @RequestParam("param") Long param){
+        if(bindingResult.hasErrors()){
+            log.info("에러발생");
+            return "posts/edit";
+        }
+
+        postService.updatePost(param, postForm);
+
+        return "redirect:/posts/list/" + param;
+
+    }
+
+
+
 
 
 

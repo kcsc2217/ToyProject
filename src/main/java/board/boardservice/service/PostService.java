@@ -53,10 +53,10 @@ public class PostService {
 
     // 게시글 업데이트
     @Transactional
-    public void updatePost(Long id, PostDto postDto) {
+    public void updatePost(Long id, PostForm postForm) {
         Post findPost = postRepository.findOne(id);
 
-        findPost.updatePost(postDto);
+        findPost.updatePost(postForm);
 
     }
 

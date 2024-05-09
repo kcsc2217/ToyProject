@@ -1,5 +1,6 @@
 package board.boardservice.domain;
 
+import board.boardservice.controller.form.PostForm;
 import board.boardservice.domain.dto.PostDto;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -61,9 +62,9 @@ public class Post {
     }
 
     //글 수정 업데이트
-    public void updatePost(PostDto postDto) {
-        this.title = postDto.getTitle();
-        this.content = postDto.getContent();
+    public void updatePost(PostForm postForm) {
+        this.title = postForm.getTitle();
+        this.content = postForm.getContent();
     }
 
 
