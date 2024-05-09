@@ -91,6 +91,8 @@ public class MemberController {
 
             HttpSession session = request.getSession();
 
+            log.info("세션 발급 완료");
+
             session.setAttribute(SessionConst.LOGIN_MEMBER, loginMember);
 
             log.info("session {}", session);

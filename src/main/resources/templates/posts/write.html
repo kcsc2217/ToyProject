@@ -59,12 +59,16 @@
     <table>
         <tr><td><h2>글쓰기</h2></td></tr>
         <tr><td class="header">Title</td></tr>
-        <tr><td><input type="text" th:field="*{title}" placeholder="제목을 입력하세요" name="title" th:errorclass="fieldError"></td></tr>
-        <div class="fieldError" th:errors="*{title}" />
+        <tr><td><input type="text" th:field="*{title}" placeholder="제목을 입력하세요" name="title" th:errorclass="fieldError">
+            <div class="fieldError" th:errors="*{title}" /></td>
+            </tr>
+
 
         <tr><td class="header">Comment</td></tr>
-        <tr><td><textarea th:field="*{content}" placeholder="내용을 입력하세요" name="detail" th:errorclass="fieldError"></textarea></td></tr>
-        <div class="fieldError" th:errors="*{content}" />
+        <tr><td><textarea th:field="*{content}" placeholder="내용을 입력하세요" name="detail" th:errorclass="fieldError"></textarea>
+            <div class="fieldError" th:errors="*{content}" /></td>
+            </tr>
+
         <tr><td><input type="submit" value="등록" onclick="alert('작성 완료!')"></td></tr>
     </table>
 </form>

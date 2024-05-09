@@ -13,8 +13,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
+import java.util.Objects;
 
 @Controller
 @RequiredArgsConstructor
@@ -23,6 +25,7 @@ import java.util.List;
 public class PostController {
     private final PostService postService;
 
+    // 작성한 글 리스트들
 
     @GetMapping("/lists")
     public String lists(Model model) {
@@ -30,18 +33,16 @@ public class PostController {
 
         model.addAttribute("posts", posts);
 
-        return "posts/list";
+        return "posts/lists";
 
     }
-
+    // 글 작성 폼
     @GetMapping("/write")
     public String writeForm(@ModelAttribute PostForm postForm, Model model) {
-
-
         return "posts/write";
 
     }
-
+    // 글 작성 로직
     @PostMapping("/write")
     public String write(@Valid @ModelAttribute PostForm postForm, BindingResult bindingResult,
                         @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false)
@@ -63,6 +64,48 @@ public class PostController {
 
 
     }
+    // 글 상세 보기
+    @GetMapping("/list/{postId}")
+    public String list(@PathVariable Long postId,Model model,@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember ){
+        Post findPost = postService.findOne(postId);
+
+        model.addAttribute("post", findPost);
+
+        model.addAttribute("loginMember", loginMember);
+
+        log.info("게시물 회원 아이디 {}", findPost.getMember().getId());
+        log.info("로그인 회원 세션 아이디{}", loginMember.getId());
+
+
+        return "posts/list";
+    }
+
+    // 글 수정
+
+    @GetMapping("/edit")
+    public String editForm(@RequestParam("param") Long param,
+                           @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember,
+                           RedirectAttributes redirectAttributes,
+                           Model model) {
+
+        log.info("{}", param);
+
+        Post findPost = postService.findOne(param);
+
+        if (!Objects.equals(findPost.getMember().getId(), loginMember.getId())) {
+
+            log.info("권한이 없음");
+            // 수정 권한이 없는 경우 경고 메시지를 추가하고 게시글 목록 페이지로 리다이렉트
+            redirectAttributes.addFlashAttribute("error", "수정할 수 없는 회원입니다.");
+            return"redirect:/posts/list/" + findPost.getId(); // 게시글 목록 페이지로 리다이렉트
+        }
+
+        // 수정 권한이 있는 경우 수정 폼으로 이동
+        model.addAttribute("post", findPost);
+        return "posts/edit"; // 수정 폼 뷰로 이동
+    }
+
+
 
 
 }

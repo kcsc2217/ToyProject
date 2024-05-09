@@ -35,6 +35,11 @@ public class PostService {
         return post.getId();
     }
 
+    public Post findOne(Long postId){
+        return postRepository.findOne(postId);
+    }
+
+
     // 글 전체 목록 조회
     public List<Post> findAll() {
         return postRepository.findAll();

@@ -1,55 +1,126 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>리스트</title>
-
-    <link rel="stylesheet" type="text/css" href="/css/board.css">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>상세 글</title>
     <style>
-        .write-button {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
         }
-        .write-button button {
-            padding: 10px 20px; /* 버튼의 크기를 더 키웁니다. */
-            font-size: 11px; /* 버튼 텍스트의 크기를 조절합니다. */
-
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            margin-top: 50px;
+        }
+        .post {
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            padding: 20px;
+        }
+        .post-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .post-body {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #666;
+            margin-bottom: 20px;
+        }
+        .author-info {
+            font-size: 14px;
+            color: #888;
+        }
+        .comment-form {
+            margin-top: 30px;
+        }
+        .comment-form textarea {
+            width: 100%;
+            height: 100px;
+            resize: vertical;
+            margin-bottom: 10px;
+        }
+        .comment-form button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .comment-list {
+            margin-top: 30px;
+        }
+        .comment {
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        .comment-content {
+            font-size: 14px;
+            color: #333;
+        }
+        .comment-author {
+            font-size: 12px;
+            color: #888;
         }
     </style>
 </head>
 <body>
+<script th:inline="javascript">
+    /* JavaScript 코드 */
+    /* 알림 메시지를 alter 창으로 표시 */
+       var errorMessage = /*[[${error}]]*/ '';
 
-<div class="write-button">
-    <form th:action="@{/posts/write}" method="get">
-        <button type="submit">글 작성</button>
-    </form>
+    if (errorMessage) {
+        alert(errorMessage);
+    }
+</script>
+
+    <div th:if="${error}" th:text="${error}" style="display: none;"></div>
+
+<div class="container">
+    <h2>글 상세보기</h2>
+    <div class="post">
+        <div class="post-title">제목: <span th:text="${post.title}">여기에 제목이 표시됩니다.</span></div>
+        <div class="post-body">내용: <span th:text="${post.content}">여기에 내용이 표시됩니다.</span></div>
+        <div class="author-info">글쓴이: <span th:text="${post.member.username}">글쓴이 정보가 여기에 표시됩니다.</span></div>
+        <button type="button" th:onclick="|location.href='@{/posts/edit(param=${post.id})}'|">수정</button>
+
+
+    </div>
+
+    <!-- 댓글 창 -->
+    <div class="comment-form">
+        <h3>댓글 작성</h3>
+        <form action="/add-comment" method="post">
+            <textarea name="comment" placeholder="댓글을 입력하세요"></textarea><br>
+            <button type="submit">댓글 작성</button>
+        </form>
+    </div>
+
+    <!-- 댓글 목록 -->
+    <div class="comment-list">
+        <h3>댓글 목록</h3>
+        <div th:each="comment : ${post.comments}" class="comment">
+            <div class="comment-content" th:text="${comment.content}">댓글 내용이 여기에 표시됩니다.</div>
+            <div class="comment-author">작성자: <span th:text="${comment.author}">작성자 정보가 여기에 표시됩니다.</span></div>
+        </div>
+    </div>
 </div>
 
-<table>
-    <thead>
-    <tr>
-        <th>번호</th>
-        <th>제목</th>
-        <th>작성자</th>
-        <th>조회수</th>
-        <th>작성일</th>
 
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="post: ${posts}">
-        <td th:text="${post.id}">James</td>
-        <td th:text="${post.title}">Matman</td>
-        <td th:text="${post.member.name}">(713) 123-8965</td>
-        <td th:text="${post.view}">jmatman@stewart.com</a></td>
-        <td th:text="${post.createDate}">01/13/1979</td>
-    </tr>
-
-    </tbody>
-</table>
 
 </body>
 </html>
+
