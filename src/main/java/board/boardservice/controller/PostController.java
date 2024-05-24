@@ -120,6 +120,42 @@ public class PostController {
 
     }
 
+    @PostMapping("/delete")
+    public String delete(@RequestParam("postId") Long postId,@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember,
+                         RedirectAttributes redirectAttributes,
+                         Model model){
+
+        Post findPost = postService.findOne(postId);
+
+        log.info("{}", findPost);
+
+        if (!Objects.equals(findPost.getMember().getId(), loginMember.getId())) {
+
+            log.info("권한이 없음");
+            // 수정 권한이 없는 경우 경고 메시지를 추가하고 게시글 목록 페이지로 리다이렉트
+            redirectAttributes.addFlashAttribute("error", "삭제 할 수 없는 회원입니다");
+            return"redirect:/posts/list/" + findPost.getId(); // 게시글 목록 페이지로 리다이렉트
+        }
+
+
+
+        postService.deletePost(postId);
+
+        redirectAttributes.addFlashAttribute("success", "게시물이 성공적으로 삭제되었습니다");
+
+        log.info("삭제 성공 !!");
+
+        return "redirect:/posts/lists";
+
+
+
+
+
+
+    }
+
+
+
 
 
 
