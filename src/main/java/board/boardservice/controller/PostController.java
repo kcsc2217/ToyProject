@@ -36,19 +36,21 @@ public class PostController {
         return "posts/lists";
 
     }
+
     // 글 작성 폼
     @GetMapping("/write")
     public String writeForm(@ModelAttribute PostForm postForm, Model model) {
         return "posts/write";
 
     }
+
     // 글 작성 로직
     @PostMapping("/write")
     public String write(@Valid @ModelAttribute PostForm postForm, BindingResult bindingResult,
                         @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false)
-    Member loginMember){
+                        Member loginMember) {
 
-        if(loginMember == null){
+        if (loginMember == null) {
             log.info("빈 객체");
             return "redirect:/members/login";
         }
@@ -58,20 +60,26 @@ public class PostController {
             return "posts/write";
         }
 
-         postService.savePost(loginMember.getId(), postForm);
+        postService.savePost(loginMember.getId(), postForm);
 
         return "redirect:/posts/lists";
 
 
     }
+
     // 글 상세 보기
     @GetMapping("/list/{postId}")
-    public String list(@PathVariable Long postId,Model model,@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember ){
+    public String list(@PathVariable Long postId, Model model, @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember) {
+
+        postService.upCount(postId);
         Post findPost = postService.findOne(postId);
+
 
         model.addAttribute("post", findPost);
 
         model.addAttribute("loginMember", loginMember);
+
+
 
         log.info("게시물 회원 아이디 {}", findPost.getMember().getId());
         log.info("로그인 회원 세션 아이디{}", loginMember.getId());
@@ -97,7 +105,7 @@ public class PostController {
             log.info("권한이 없음");
             // 수정 권한이 없는 경우 경고 메시지를 추가하고 게시글 목록 페이지로 리다이렉트
             redirectAttributes.addFlashAttribute("error", "수정할 수 없는 회원입니다.");
-            return"redirect:/posts/list/" + findPost.getId(); // 게시글 목록 페이지로 리다이렉트
+            return "redirect:/posts/list/" + findPost.getId(); // 게시글 목록 페이지로 리다이렉트
         }
 
         PostForm postForm = PostForm.PostCreate(findPost.getTitle(), findPost.getContent());
@@ -108,8 +116,8 @@ public class PostController {
     }
 
     @PostMapping("/edit")
-    public String edit(@Valid @ModelAttribute PostForm postForm, BindingResult bindingResult, @RequestParam("param") Long param){
-        if(bindingResult.hasErrors()){
+    public String edit(@Valid @ModelAttribute PostForm postForm, BindingResult bindingResult, @RequestParam("param") Long param) {
+        if (bindingResult.hasErrors()) {
             log.info("에러발생");
             return "posts/edit";
         }
@@ -121,9 +129,9 @@ public class PostController {
     }
 
     @PostMapping("/delete")
-    public String delete(@RequestParam("postId") Long postId,@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember,
+    public String delete(@RequestParam("postId") Long postId, @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember,
                          RedirectAttributes redirectAttributes,
-                         Model model){
+                         Model model) {
 
         Post findPost = postService.findOne(postId);
 
@@ -134,32 +142,24 @@ public class PostController {
             log.info("권한이 없음");
             // 수정 권한이 없는 경우 경고 메시지를 추가하고 게시글 목록 페이지로 리다이렉트
             redirectAttributes.addFlashAttribute("error", "삭제 할 수 없는 회원입니다");
-            return"redirect:/posts/list/" + findPost.getId(); // 게시글 목록 페이지로 리다이렉트
+            return "redirect:/posts/list/" + findPost.getId(); // 게시글 목록 페이지로 리다이렉트
         }
-
 
 
         postService.deletePost(postId);
 
-        redirectAttributes.addFlashAttribute("success", "게시물이 성공적으로 삭제되었습니다");
+        if(postService.findOne(postId) == null){
+            redirectAttributes.addFlashAttribute("success", "게시물이 성공적으로 삭제되었습니다");
+        }
+
+
 
         log.info("삭제 성공 !!");
 
         return "redirect:/posts/lists";
 
 
-
-
-
-
     }
-
-
-
-
-
-
-
 
 
 }

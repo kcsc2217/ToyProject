@@ -1,0 +1,47 @@
+ table {
+            margin: auto;
+        }
+        input[type="text"] {
+            border: 1.5px rgb(68, 136, 244) solid;
+            width: 500px;
+            height: 30px;
+            border-radius: 5px;
+            padding-left: 10px;
+        }
+        textarea {
+            border: 1.5px rgb(68, 136, 244) solid;
+            width: 500px;
+            height: 400px;
+            border-radius: 5px;
+            padding-left: 10px;
+            padding-top: 10px;
+            resize: none;
+        }
+        .header {
+            height: 30px;
+        }
+        input[type="submit"] {
+            width: 100px;
+            height: 40px;
+            font-size: 15px;
+            border: 0;
+            outline: 1.5px rgb(68, 136, 244) solid;
+            border-radius: 5px;
+            padding-left: 10px;
+            background-color: rgb(164, 199, 255);
+        }
+        .fieldError {
+        color: #bd2130; /* 필드 오류 메시지의 글꼴 색상을 변경할 수 있습니다. */
+        font-size: 14px; /* 필드 오류 메시지의 글꼴 크기를 변경할 수 있습니다. */
+        margin-top: 5px; /* 필드 오류 메시지 위 여백을 조정할 수 있습니다. */
+        }
+        input[type="submit"]:active {
+            width: 100px;
+            height: 40px;
+            font-size: 15px;
+            border: 0;
+            border-radius: 5px;
+            outline: 1.5px rgb(27, 76, 155) solid;
+            padding-left: 10px;
+            background-color: rgb(68, 136, 244);
+        }

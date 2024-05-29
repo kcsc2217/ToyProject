@@ -67,6 +67,11 @@ public class Post {
         this.content = postForm.getContent();
     }
 
+    public void upViewCount(){
+        view++;
+    }
+
+
 
 
 

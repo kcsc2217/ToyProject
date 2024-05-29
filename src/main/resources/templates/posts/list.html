@@ -102,12 +102,11 @@
     }
 
 
-
 </script>
 
 
-    <div th:if="${error}" th:text="${error}" style="display: none;"></div>v
-
+<div th:if="${error}" th:text="${error}" style="display: none;"></div>
+v
 
 
 <div class="container">
@@ -119,10 +118,13 @@
 
     </div>
 
-      <div> <button type="button" class="back-button" th:onclick="|location.href='@{/posts/lists}'|">뒤로 가기</button></div>
+    <div>
+        <button type="button" class="back-button" th:onclick="|location.href='@{/posts/lists}'|">뒤로 가기</button>
+    </div>
 
     <div class="post-actions">
-        <button type="button" class="edit-button" th:onclick="|location.href='@{/posts/edit(param=${post.id})}'|">수정</button>
+        <button type="button" class="edit-button" th:onclick="|location.href='@{/posts/edit(param=${post.id})}'|">수정
+        </button>
         <form action="/posts/delete" method="post" style="display:inline;">
             <input type="hidden" name="_method" value="delete">
             <input type="hidden" name="postId" th:value="${post.id}">
@@ -149,7 +151,6 @@
         </div>
     </div>
 </div>
-
 
 
 </body>

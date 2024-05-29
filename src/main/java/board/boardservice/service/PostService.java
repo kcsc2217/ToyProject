@@ -67,5 +67,12 @@ public class PostService {
 
     }
 
+    @Transactional
+    public void upCount(Long id){
+        Post findPost = postRepository.findOne(id);
+
+        findPost.upViewCount();
+    }
+
 
 }

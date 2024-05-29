@@ -13,6 +13,28 @@ table {
   overflow: hidden;
 }
 
+   .write-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+
+        }
+
+        .success-message {
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+    color: #155724;
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+        .write-button button {
+            padding: 10px 20px; /* 버튼의 크기를 더 키웁니다. */
+            font-size: 11px; /* 버튼 텍스트의 크기를 조절합니다. */
+
+        }
+
 th {
   text-align: left;
 }
