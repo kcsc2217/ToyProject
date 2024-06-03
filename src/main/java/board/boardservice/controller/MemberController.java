@@ -70,7 +70,7 @@ public class MemberController {
     public String loginForm(Model model) {
         model.addAttribute("memberLoginForm", new MemberLoginForm());
 
-        return "members/login";
+        return "members/newLogin";
     }
     //로그인 구현 완료
 
@@ -80,7 +80,7 @@ public class MemberController {
 
         if (bindingResult.hasErrors()) {
             log.info("에러 발생");
-            return "members/login";
+            return "members/newLogin";
         }
 
 
@@ -101,7 +101,7 @@ public class MemberController {
         } catch (InvalidCredentialsException e) {
             bindingResult.reject("loginFail", e.getMessage());
 
-            return "members/login";
+            return "members/newLogin";
         }
 
         return "redirect:" + redirectURL;

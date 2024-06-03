@@ -21,11 +21,11 @@ public class HomeController {
     ){
 
         if(loginMember == null){
-            return "redirect:/members/login";
+            return "newHome";
         }
         model.addAttribute("member", loginMember);
 
-        return "home";
+        return "newHome";
     }
 
 }
