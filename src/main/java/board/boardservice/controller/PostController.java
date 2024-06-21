@@ -1,5 +1,6 @@
 package board.boardservice.controller;
 
+import board.boardservice.controller.form.CommentForm;
 import board.boardservice.controller.form.PostForm;
 import board.boardservice.domain.Member;
 import board.boardservice.domain.Post;
@@ -79,6 +80,9 @@ public class PostController {
 
         model.addAttribute("loginMember", loginMember);
 
+        CommentForm commentForm = new CommentForm();
+
+        model.addAttribute("commentForm", commentForm);
 
 
         log.info("게시물 회원 아이디 {}", findPost.getMember().getId());

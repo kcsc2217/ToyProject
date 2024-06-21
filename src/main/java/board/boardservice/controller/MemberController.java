@@ -109,7 +109,7 @@ public class MemberController {
     }
 
     //로그아웃
-    @PostMapping("/logout")
+    @GetMapping("/logout")
     public String logout(HttpServletRequest request) {
 
         HttpSession session = request.getSession(false);

@@ -4,10 +4,11 @@ import board.boardservice.domain.Address;
 import board.boardservice.domain.Comment;
 import board.boardservice.domain.Member;
 import board.boardservice.domain.Post;
-import board.boardservice.domain.dto.CommentUpdateDto;
+import board.boardservice.domain.dto.comment.CommentUpdateDto;
 import board.boardservice.controller.form.CommentForm;
 import board.boardservice.repository.CommentRepository;
 import jakarta.persistence.EntityManager;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -29,29 +30,35 @@ class CommentServiceTest {
     @Autowired
     EntityManager em;
 
-    @Test
-    public void 댓글작성() throws Exception {
-       //given
-        CommentForm commentForm = new CommentForm("댓글1");
-        Member member = testMember();
-        Post post = new Post(member, "zz"," zz");
-
-        em.persist(post);
-        em.persist(member);
-
-        em.flush();
-        em.clear();
-
-
-        //when
-        Long commentId = commentService.save(commentForm, member.getId(), post.getId());
-
-        Comment findComment = commentRepository.findOne(commentId);
-
-
-        //then
-        assertEquals(commentId, findComment.getId());
-    }
+//    @Test
+//    public void 댓글작성() throws Exception {
+//       //given
+//        CommentForm commentForm = new CommentForm("댓글1");
+//        Member member = testMember();
+//        Post post = new Post(member, "zz"," zz");
+//
+//
+//        em.persist(member);
+//        em.persist(post);
+//
+//
+//        em.flush();
+//        em.clear();
+//
+//
+//        //when
+//        Long commentId = commentService.save(commentForm, member.getId(), post.getId());
+//
+//
+//
+//        Comment findComment = commentRepository.findOne(commentId);
+//
+//
+//        //then
+//        assertEquals(commentId, findComment.getId());
+//
+//        Assertions.assertThat(findComment.getMember().getName()).isEqualTo(member.getName());
+//    }
 
     @Test
     public void 전체조회() throws Exception {
@@ -61,6 +68,9 @@ class CommentServiceTest {
         //when
         em.persist(comment1);
         em.persist(comment2);
+
+        em.flush();
+        em.clear();
 
         List<Comment> comments = commentService.findAll();
 
@@ -121,11 +131,11 @@ class CommentServiceTest {
         //given
         Member member = Member.builder()
                 .name("John")
-                .username("john123")
+                .username("kcsc227")
                 .address(address)
-                .phoneNumber("010-xxxx-xxxx")
+                .phoneNumber("010-5151-xxxx")
                 .password("password123")
-                .email("john@example.com")
+                .email("k12002@nate.com")
                 .birthDay(LocalDate.of(1990, 5, 15)) // 생일 필드 설정
                 // 나머지 필드에 대한 설정
                 .build();

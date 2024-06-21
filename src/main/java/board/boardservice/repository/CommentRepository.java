@@ -32,6 +32,8 @@ public class CommentRepository {
                 .getResultList();
     }
 
+
+
     public void deletePost(Long id){
         Comment comment = em.find(Comment.class, id);
 

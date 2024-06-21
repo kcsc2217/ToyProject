@@ -28,9 +28,11 @@ public class MemberService {
 
     }
 
-    public Member findId(Member member){
-        return memberRepository.findOne(member.getId());
+    public Member findId(Long memberId){
+        return memberRepository.findOne(memberId);
     }
+
+
 
         // 로그인 기능
         public Member login(String username,String password)  {

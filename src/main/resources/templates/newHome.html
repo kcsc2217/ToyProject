@@ -189,9 +189,12 @@
                             <span th:text="${member.name}">회원님</span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" th:href="@{/members/profile}">프로필</a></li>
-                            <li><a class="dropdown-item" th:href="@{/members/logout}">로그아웃</a></li>
+                            <li><a class="dropdown-item" th:href="@{/members/update}" th:attr="method='get'">수정하기</a></li>
+                            <li><a class="dropdown-item" th:href="@{/members/logout}" th:attr="method='get'">로그아웃</a></li>
+                            <li><a class="dropdown-item" th:href="@{/members/delete}" th:attr="method='get'">탈퇴하기</a></li>
+
                         </ul>
+
                     </li>
                 </ul>
             </div>

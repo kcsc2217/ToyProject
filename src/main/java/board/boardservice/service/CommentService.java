@@ -3,7 +3,7 @@ package board.boardservice.service;
 import board.boardservice.domain.Comment;
 import board.boardservice.domain.Member;
 import board.boardservice.domain.Post;
-import board.boardservice.domain.dto.CommentUpdateDto;
+import board.boardservice.domain.dto.comment.CommentUpdateDto;
 import board.boardservice.controller.form.CommentForm;
 import board.boardservice.repository.CommentRepository;
 import board.boardservice.repository.MemberRepository;
@@ -38,6 +38,10 @@ public class CommentService {
 
         return comment.getId();
 
+    }
+
+    public Comment findById(Long id){
+        return commentRepository.findOne(id);
     }
 
 
