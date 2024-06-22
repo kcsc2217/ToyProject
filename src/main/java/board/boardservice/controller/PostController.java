@@ -4,6 +4,7 @@ import board.boardservice.controller.form.CommentForm;
 import board.boardservice.controller.form.PostForm;
 import board.boardservice.domain.Member;
 import board.boardservice.domain.Post;
+import board.boardservice.repository.PostRepository;
 import board.boardservice.service.MemberService;
 import board.boardservice.service.PostService;
 import board.boardservice.session.SessionConst;
@@ -25,6 +26,7 @@ import java.util.Objects;
 @RequestMapping("/posts")
 public class PostController {
     private final PostService postService;
+    private final PostRepository postRepository;
 
     // 작성한 글 리스트들
 
@@ -61,6 +63,7 @@ public class PostController {
             return "posts/write";
         }
 
+
         postService.savePost(loginMember.getId(), postForm);
 
         return "redirect:/posts/lists";
@@ -73,7 +76,7 @@ public class PostController {
     public String list(@PathVariable Long postId, Model model, @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember) {
 
         postService.upCount(postId);
-        Post findPost = postService.findOne(postId);
+        Post findPost = postRepository.findBySinglePost(postId);
 
 
         model.addAttribute("post", findPost);

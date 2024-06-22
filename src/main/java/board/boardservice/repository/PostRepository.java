@@ -5,6 +5,7 @@ import board.boardservice.domain.dto.PostDto;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -43,6 +44,25 @@ public class PostRepository {
         } catch (NoResultException e) {
             return null;
         }
+    }
+
+    public List<Post> findByAllPost(){
+        return em.createQuery("select distinct p from Post p" +
+                                            " join fetch p.member m" +
+                                            " join fetch p.comments cm", Post.class).getResultList();
+    }
+
+    public Post findBySinglePost(Long id){
+        try{
+            return em.createQuery("select distinct p from Post p" +
+                    " left join fetch p.member m" +
+                    " left join fetch p.comments cm" +
+                    " where p.id = :id", Post.class).setParameter("id",id).getSingleResult();
+        }catch (NoResultException e){
+            System.out.println("No Post Not found with id = " + id);
+                    return null;
+        }
+
     }
 
     public void deletePost(Long id){
