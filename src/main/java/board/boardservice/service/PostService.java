@@ -2,7 +2,7 @@ package board.boardservice.service;
 
 import board.boardservice.domain.Member;
 import board.boardservice.domain.Post;
-import board.boardservice.domain.dto.PostDto;
+import board.boardservice.domain.dto.post.PostDto;
 import board.boardservice.controller.form.PostForm;
 import board.boardservice.repository.MemberRepository;
 import board.boardservice.repository.PostRepository;

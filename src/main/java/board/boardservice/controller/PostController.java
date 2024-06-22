@@ -1,9 +1,13 @@
 package board.boardservice.controller;
 
 import board.boardservice.controller.form.CommentForm;
+import board.boardservice.controller.form.MemberLoginForm;
 import board.boardservice.controller.form.PostForm;
 import board.boardservice.domain.Member;
 import board.boardservice.domain.Post;
+import board.boardservice.domain.dto.comment.CommentCreateDto;
+import board.boardservice.domain.dto.member.LoginMemberDto;
+import board.boardservice.domain.dto.post.PostlistDto;
 import board.boardservice.repository.PostRepository;
 import board.boardservice.service.MemberService;
 import board.boardservice.service.PostService;
@@ -19,6 +23,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Controller
 @RequiredArgsConstructor
@@ -78,10 +83,17 @@ public class PostController {
         postService.upCount(postId);
         Post findPost = postRepository.findBySinglePost(postId);
 
+        PostlistDto postlistDto = new PostlistDto(findPost);
+        LoginMemberDto loginMemberDto = new LoginMemberDto(loginMember);
 
-        model.addAttribute("post", findPost);
+        List<CommentCreateDto> comments = findPost.getComments().stream().map(comment -> new CommentCreateDto(comment)).collect(Collectors.toList());
 
-        model.addAttribute("loginMember", loginMember);
+
+        model.addAttribute("comments", comments);
+
+        model.addAttribute("post", postlistDto);
+
+        model.addAttribute("loginMember", loginMemberDto);
 
         CommentForm commentForm = new CommentForm();
 

@@ -1,11 +1,10 @@
 package board.boardservice.repository;
 
 import board.boardservice.domain.Post;
-import board.boardservice.domain.dto.PostDto;
+import board.boardservice.domain.dto.post.PostDto;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
