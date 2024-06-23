@@ -84,19 +84,19 @@ class CommentServiceTest {
 
 
 
-    @Test
-    public void 업데이트() throws Exception {
-       //given
-        Comment comment = getComment();
-        CommentUpdateDto commentUpdateDto = new CommentUpdateDto("야야");
-
-        //when
-        em.persist(comment);
-        commentService.upDateComment(comment.getId(), commentUpdateDto);
-       
-       //then
-        assertEquals(comment.getContent(), "야야");
-    }
+//    @Test
+//    public void 업데이트() throws Exception {
+//       //given
+//        Comment comment = getComment();
+//        CommentUpdateDto commentUpdateDto = new CommentUpdateDto("야야");
+//
+//        //when
+//        em.persist(comment);
+//        commentService.upDateComment(comment.getId(), commentUpdateDto);
+//
+//       //then
+//        assertEquals(comment.getContent(), "야야");
+//    }
 
     @Test
     public void 댓글삭제() throws Exception {

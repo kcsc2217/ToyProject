@@ -47,8 +47,8 @@ public class Comment {
 
 
     // 업데이트 메서드
-    public void updateContent(CommentUpdateDto commentUpdateDto){
-        this.content = commentUpdateDto.getContent();
+    public void updateContent(String content){
+        this.content = content;
     }
 
     //

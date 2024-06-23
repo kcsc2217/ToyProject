@@ -7,10 +7,13 @@ import lombok.Data;
 @Data
 public class CommentCreateDto {
 
+
+    private Long id;
     private String content;
     private String name;
 
     public CommentCreateDto(Comment comment) {
+        id = comment.getId();
         this.content = comment.getContent();
         this.name = comment.getMember().getName();
     }

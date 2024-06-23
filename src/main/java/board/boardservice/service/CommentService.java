@@ -1,5 +1,6 @@
 package board.boardservice.service;
 
+import board.boardservice.controller.form.CommentUpdateForm;
 import board.boardservice.domain.Comment;
 import board.boardservice.domain.Member;
 import board.boardservice.domain.Post;
@@ -50,11 +51,12 @@ public class CommentService {
     }
 
     @Transactional
-    public void upDateComment(Long id, CommentUpdateDto commentUpdateDto){
-        Comment findComment = commentRepository.findOne(id);
+    public Long upDateComment(CommentUpdateForm commentUpdateForm){
+        Comment findComment = commentRepository.findOne(commentUpdateForm.getId());
 
-        findComment.updateContent(commentUpdateDto);
+        findComment.updateContent(commentUpdateForm.getContent());
 
+        return findComment.getId();
     }
 
     @Transactional

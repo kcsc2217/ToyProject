@@ -90,7 +90,7 @@
                         <div class="d-flex justify-content-between">
                             <button class="btn btn-light btn-sm">공감</button>
                             <button class="btn btn-light btn-sm">대댓글</button>
-                            <button class="btn btn-light btn-sm" onclick="editComment(${comment.id})">수정</button>
+                            <button class="btn btn-light btn-sm" th:onclick="checkEditPermission([[${comment.id}]])">수정</button>
                         </div>
                     </div>
                 </div>
@@ -99,52 +99,81 @@
     </div>
 
     <script type="text/javascript">
-        function editComment(commentId) {
-
-              $.ajax({
-                type: "POST",
-                url: "/comments/create",
-                data: JSON.stringify(commentBean), // 데이터를 JSON 형식으로 변환합니다.
-                contentType: "application/json", // 콘텐츠 타입을 JSON으로 설정합니다.
-                success: function(response){
-                    console.log("성공")
-                      $("#comment-list").replaceWith(response); // // comment-list를 업데이트합니다.
+        function checkEditPermission(commentId) {
+            console.log("checkEditPermission 호출됨, commentId:", commentId);
+            $.ajax({
+                type: "GET",
+                url: "/comments/checkPermission/" + commentId,
+                success: function(response) {
+                    console.log("성공 응답:", response);
+                    var newContent = prompt("댓글을 수정하세요:", response.content);
+                    if (newContent != null && newContent.trim() !== "") {
+                        updateComment(commentId, newContent);
+                    } else {
+                        alert("내용을 입력해주세요.");
+                    }
                 },
-                error: function(xhr, status, error){
+                error: function(xhr, status, error) {
+                    if (xhr.status === 403) {x
+                        alert("이 댓글을 수정할 권한이 없습니다.");
+                    } else {
+                        console.error("Error occurred: " + error);
+                    }
+                }
+            });
+        }
+
+        function updateComment(commentId, newContent) {
+            var commentData = {
+                id: commentId,
+                content: newContent
+            };
+
+            $.ajax({
+                type: "POST",
+                url: "/comments/update",
+                data: JSON.stringify(commentData),
+                contentType: "application/json",
+                success: function(response) {
+                    console.log("성공");
+                     window.location.href = "/posts/list/" + response.postId;
+                },
+                error: function(xhr, status, error) {
                     console.error("Error occurred: " + error);
                 }
             });
         }
     </script>
 
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $("#butt").click(function(event){
+                event.preventDefault(); // 폼의 기본 동작을 막습니다.
 
-<script type="text/javascript">
-    $(document).ready(function(){
-        $("#butt").click(function(event){
-            event.preventDefault(); // 폼의 기본 동작을 막습니다.
+                var commentBean = {
+                    postId: $("#postId").val(),
+                    memberId: $("#memberId").val(),
+                    content: $("textarea[name='content']").val() // content 필드를 추가합니다.
+                };
 
-            var commentBean = {
-                postId: $("#postId").val(),
-                memberId: $("#memberId").val(),
-                content: $("textarea[name='content']").val() // content 필드를 추가합니다.
-            };
+                console.log("댓글 데이터:", commentBean);
 
-            $.ajax({
-                type: "POST",
-                url: "/comments/create",
-                data: JSON.stringify(commentBean), // 데이터를 JSON 형식으로 변환합니다.
-                contentType: "application/json", // 콘텐츠 타입을 JSON으로 설정합니다.
-                success: function(response){
-                    console.log("성공")
-                      $("#comment-list").replaceWith(response); // // comment-list를 업데이트합니다.
-                },
-                error: function(xhr, status, error){
-                    console.error("Error occurred: " + error);
-                }
+                $.ajax({
+                    type: "POST",
+                    url: "/comments/create",
+                    data: JSON.stringify(commentBean), // 데이터를 JSON 형식으로 변환합니다.
+                    contentType: "application/json", // 콘텐츠 타입을 JSON으로 설정합니다.
+                    success: function(response){
+                        console.log("성공");
+                        $("#comment-list").replaceWith(response); // comment-list를 업데이트합니다.
+                    },
+                    error: function(xhr, status, error){
+                        console.error("Error occurred: " + error);
+                    }
+                });
             });
         });
-    });
-</script>
+    </script>
 
 </body>
 </html>
