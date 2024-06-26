@@ -10,7 +10,7 @@
 - Html, css, bootstap
 
 ## Framework
-- SpringBoot, JPA, Thymeleaf
+- Spring, SpringBoot, JPA, Thymeleaf, lombok, Junit5
 
 ## DB
 
